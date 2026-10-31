@@ -1,0 +1,19 @@
+# Local builds and generated icon representations
+.build/
+dist/
+.swiftpm/
+Assets/AppIcon.iconset/
+*.app/
+
+# macOS and Python caches
+.DS_Store
+__pycache__/
+*.py[cod]
+
+# Local configuration and signing material
+.env
+.env.*
+!.env.example
+*.p12
+*.pfx
+*.pem
