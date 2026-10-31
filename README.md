@@ -58,7 +58,7 @@ The popup notes area omits the generated Start/End preamble and Details heading.
 
 ## Source repository
 
-The private source repository is [yvancognasse/MyEvent](https://github.com/yvancognasse/MyEvent). This Mac folder is the working checkout for development, compilation and testing. Git history starts with the current 1.3.13 / build 17 baseline; earlier builds were not stored in Git.
+The public source repository is [yvancognasse/MyEvent](https://github.com/yvancognasse/MyEvent). This Mac folder is the working checkout for development, compilation and testing. Git history starts with the current 1.3.13 / build 17 baseline; earlier builds were not stored in Git.
 
 The repository contains Swift source, tests, English help, translations, original icon artwork/generator, build scripts and release metadata. Local build outputs, compiled applications, caches and signing material are excluded. No certificate or private key is needed to read the source.
 

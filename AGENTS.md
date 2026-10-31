@@ -12,6 +12,6 @@ These requirements come from the user's explicit instructions.
 
 ## GitHub source management
 
-- The private source repository is `https://github.com/yvancognasse/MyEvent`; the local MyEvent folder remains the working checkout for native macOS builds and tests.
+- The public source repository is `https://github.com/yvancognasse/MyEvent`; the local MyEvent folder remains the working checkout for native macOS builds and tests.
 - Use `main` and the `origin` remote. Preserve unrelated user changes. After an authorized code change, update help/version metadata, run the appropriate checks, and commit/push the completed source changes when GitHub authentication is available. Report a failed or blocked push; never imply that unpushed local edits are backed up remotely.
 - Keep compiled applications, build caches, generated iconset files, credentials and signing material excluded. Do not make the repository public or change its access without explicit instruction.
