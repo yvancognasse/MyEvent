@@ -10,7 +10,7 @@ struct EventDraft {
     var detectedDate: Bool
 }
 
-/// Local extraction with explicit defaults for immediate event creation.
+/// Local extraction with fallback dates for an editable event draft.
 enum EventParser {
     static func parse(_ text: String, now: Date = Date(), calendar: Calendar = .current, defaultDuration: TimeInterval = 3600, defaultHour: Int = 9) -> EventDraft {
         let folded = text.folding(options: [.diacriticInsensitive, .caseInsensitive], locale: Locale(identifier: "fr_FR"))

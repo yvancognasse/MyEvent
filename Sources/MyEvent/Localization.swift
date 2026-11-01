@@ -937,6 +937,127 @@ enum Translations {
     "pt": "Falha ao criar o evento",
     "de": "Termin konnte nicht erstellt werden",
     "it": "Creazione dell'evento non riuscita"
+  },
+  "Review event": {
+    "en": "Review event",
+    "zh-Hans": "检查日程",
+    "hi": "इवेंट की समीक्षा करें",
+    "es": "Revisar evento",
+    "ar": "مراجعة الحدث",
+    "fr": "Vérifier l'événement",
+    "pt": "Rever evento",
+    "de": "Termin prüfen",
+    "it": "Rivedi evento"
+  },
+  "Title": {
+    "en": "Title",
+    "zh-Hans": "标题",
+    "hi": "शीर्षक",
+    "es": "Título",
+    "ar": "العنوان",
+    "fr": "Titre",
+    "pt": "Título",
+    "de": "Titel",
+    "it": "Titolo"
+  },
+  "Notes": {
+    "en": "Notes",
+    "zh-Hans": "备注",
+    "hi": "नोट्स",
+    "es": "Notas",
+    "ar": "الملاحظات",
+    "fr": "Notes",
+    "pt": "Notas",
+    "de": "Notizen",
+    "it": "Note"
+  },
+  "Link": {
+    "en": "Link",
+    "zh-Hans": "链接",
+    "hi": "लिंक",
+    "es": "Enlace",
+    "ar": "الرابط",
+    "fr": "Lien",
+    "pt": "Link",
+    "de": "Link",
+    "it": "Link"
+  },
+  "Create event": {
+    "en": "Create event",
+    "zh-Hans": "创建日程",
+    "hi": "इवेंट बनाएँ",
+    "es": "Crear evento",
+    "ar": "إنشاء الحدث",
+    "fr": "Créer l'événement",
+    "pt": "Criar evento",
+    "de": "Termin erstellen",
+    "it": "Crea evento"
+  },
+  "Enter an event title.": {
+    "en": "Enter an event title.",
+    "zh-Hans": "请输入日程标题。",
+    "hi": "इवेंट का शीर्षक दर्ज करें।",
+    "es": "Introduce un título para el evento.",
+    "ar": "أدخل عنوان الحدث.",
+    "fr": "Saisissez un titre pour l'événement.",
+    "pt": "Introduza um título para o evento.",
+    "de": "Geben Sie einen Titel ein.",
+    "it": "Inserisci un titolo per l'evento."
+  },
+  "The end must be after the start.": {
+    "en": "The end must be after the start.",
+    "zh-Hans": "结束时间必须晚于开始时间。",
+    "hi": "समाप्ति का समय प्रारंभ के बाद होना चाहिए।",
+    "es": "El final debe ser posterior al inicio.",
+    "ar": "يجب أن تكون النهاية بعد البداية.",
+    "fr": "La fin doit être après le début.",
+    "pt": "O fim deve ser posterior ao início.",
+    "de": "Das Ende muss nach dem Beginn liegen.",
+    "it": "La fine deve essere successiva all'inizio."
+  },
+  "Enter a valid http or https link.": {
+    "en": "Enter a valid http or https link.",
+    "zh-Hans": "请输入有效的 http 或 https 链接。",
+    "hi": "एक मान्य http या https लिंक दर्ज करें।",
+    "es": "Introduce un enlace http o https válido.",
+    "ar": "أدخل رابط http أو https صالحًا.",
+    "fr": "Saisissez un lien http ou https valide.",
+    "pt": "Introduza um link http ou https válido.",
+    "de": "Geben Sie einen gültigen http- oder https-Link ein.",
+    "it": "Inserisci un link http o https valido."
+  },
+  "Review the details, then confirm to create the event.": {
+    "en": "Review the details, then confirm to create the event.",
+    "zh-Hans": "请检查详细信息，然后确认创建日程。",
+    "hi": "विवरण की समीक्षा करें, फिर इवेंट बनाने के लिए पुष्टि करें।",
+    "es": "Revisa los detalles y confirma para crear el evento.",
+    "ar": "راجع التفاصيل، ثم أكد لإنشاء الحدث.",
+    "fr": "Vérifiez les détails, puis confirmez la création de l'événement.",
+    "pt": "Reveja os detalhes e confirme para criar o evento.",
+    "de": "Prüfen Sie die Details und bestätigen Sie die Erstellung des Termins.",
+    "it": "Verifica i dettagli, poi conferma per creare l'evento."
+  },
+  "Select text and press the shortcut. Review the details before creating the event.": {
+    "en": "Select text and press the shortcut. Review the details before creating the event.",
+    "zh-Hans": "选择文本并按快捷键。创建日程前请检查详细信息。",
+    "hi": "टेक्स्ट चुनें और शॉर्टकट दबाएँ। इवेंट बनाने से पहले विवरण की समीक्षा करें।",
+    "es": "Selecciona texto y pulsa el atajo. Revisa los detalles antes de crear el evento.",
+    "ar": "حدد النص واضغط الاختصار. راجع التفاصيل قبل إنشاء الحدث.",
+    "fr": "Sélectionnez du texte et utilisez le raccourci. Vérifiez les détails avant de créer l'événement.",
+    "pt": "Selecione texto e prima o atalho. Reveja os detalhes antes de criar o evento.",
+    "de": "Markieren Sie Text und drücken Sie das Tastenkürzel. Prüfen Sie die Details vor der Erstellung.",
+    "it": "Seleziona il testo e premi la scorciatoia. Verifica i dettagli prima di creare l'evento."
+  },
+  "Preparing event…": {
+    "en": "Preparing event…",
+    "zh-Hans": "正在准备日程…",
+    "hi": "इवेंट तैयार हो रहा है…",
+    "es": "Preparando evento…",
+    "ar": "جارٍ تحضير الحدث…",
+    "fr": "Préparation de l'événement…",
+    "pt": "A preparar evento…",
+    "de": "Termin wird vorbereitet…",
+    "it": "Preparazione dell'evento…"
   }
 }
 """#
@@ -947,6 +1068,8 @@ enum Translations {
 /// The stable application identifier intentionally remains unchanged across the rename.
 enum PreferencesMigration {
     static func run() {
+        UserDefaults.standard.removeObject(forKey: "durationMinutes")
+        UserDefaults.standard.removeObject(forKey: "defaultHour")
         UserDefaults.standard.removeObject(forKey: "calendarApplication")
         UserDefaults.standard.removeObject(forKey: "playSound")
         UserDefaults.standard.removeObject(forKey: "creationSound")

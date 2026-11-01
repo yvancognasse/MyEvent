@@ -1,18 +1,18 @@
 # MyEvent
 
-Native macOS app that creates calendar events immediately from selected text with a global shortcut. The regular Dock application has a settings-only window and no menu bar status icon.
+Native macOS app that prepares editable calendar events from selected text with a global shortcut. The regular Dock application has a settings-only window and no menu bar status icon.
 
 ## Setup and use
 
-Open `dist/MyEvent.app`. In General choose a language, shortcut and default duration/time. There are no sound controls. In Permissions authorize Accessibility. In Accounts authorize full calendar access and check one or more writable calendars. Only accounts synced with macOS Calendar are available; each chosen calendar receives a separate copy.
+Open `dist/MyEvent.app`. In General choose a language and shortcut. Default duration/time controls have been removed. There are no sound controls. In Permissions authorize Accessibility. In Accounts authorize full calendar access and check one or more writable calendars. Only accounts synced with macOS Calendar are available; each chosen calendar receives a separate copy.
 
-Select text in another app, press your shortcut and release the keys. MyEvent parses the original dates, translates the text if needed, and saves immediately without a preview. The red close button on Settings quits MyEvent and disables the shortcut, as does ⌘Q. The yellow button only minimizes Settings and keeps the app running. Closing Help does not quit the app. Edit or delete created events in Calendar.
+Select text in another app, press your shortcut and release the keys. MyEvent parses the original dates, translates the text if needed, and opens a separate editable draft. Review the title, start/end dates, location, link and notes, then click Create event to save. Cancel or close the draft to discard it without writing to Calendar. The red close button on Settings quits MyEvent and disables the shortcut, as does ⌘Q. The yellow button only minimizes Settings and keeps the app running. Closing Help does not quit the app. Edit or delete created events in Calendar.
 
 The nine languages are English, Mandarin (Simplified), Hindi, Spanish, Arabic, French, Portuguese, German and Italian. Arabic uses a right-to-left layout. Removed language preferences fall back to English.
 
 The language selection controls the interface **and the event title and notes**. On-device translation between different languages requires **macOS 26+**, supported source/target languages and installed translation models. The source language is detected automatically. If models are missing, install them in System Settings → General → Language & Region → Translation Languages. Settings has no translation source list or preparation button. Unsupported pairs, missing models and unidentified source languages block event creation rather than silently saving untranslated text. Same-language text can be saved on older supported macOS versions (14+). Mixed-language selections and short text may be recognized incorrectly.
 
-Notes contain localized start/end dates, a labeled location if present, email references, web links and the full translated details. No untranslated original is appended. Email references do not issue invitations. The first web link is also stored in the event URL field. Event dates come from the original selection. Without a recognized date, tomorrow and the default time are used; without an end time, the default duration applies. One selection is one event per destination; recurrences and multi-event lists are not expanded.
+Draft notes contain a labeled location if present, email references, web links and the full translated details, with generated Start/End and Details labels removed from the editor. The reviewed notes are saved as edited; dates are not regenerated inside them. No untranslated original is appended. Email references do not issue invitations. The first web link is also stored in the event URL field. Event dates come from the original selection. Without a recognized date, tomorrow at 09:00 is proposed; without an end time, a one-hour duration is proposed. Review and change these suggestions in the popup; retired defaults are ignored. One selection is one event per destination; recurrences and multi-event lists are not expanded.
 
 ## Help and release metadata
 
@@ -50,11 +50,9 @@ When an accepted shortcut request starts, the Dock icon immediately pulses with 
 
 ## Creation feedback
 
-Sound playback, Preview and all sound controls have been removed. After a successful save, a separate non-activating native popup summarizes the title, start/end times, location, destination calendars and detailed notes. It stays open until you click Close or its window close button. There is no automatic dismissal, and creating another event leaves earlier receipts open. Quitting MyEvent closes all windows. Failure popups also leave Settings alone. A minimized or hidden Settings window stays minimized or hidden; the source app keeps focus. The red Settings close button still quits MyEvent and disables the shortcut, as requested; creation cannot run after the app has quit.
+Sound controls remain removed. The shortcut prepares a separate editable native popup without reopening Settings. Nothing is saved before Create event. The popup checks a non-empty title, end after start, and an optional http/https link. Save failures retain edits for retry; successful confirmation disables editing and removes the create button to prevent duplicate submissions. The panel stays open until manually closed. Closing an unconfirmed draft discards it. Closing Settings with its red button still quits MyEvent and disables the shortcut.
 
-The confirmation popup has only Close. Calendar-opening buttons, the Outlook/Apple Calendar application selector and their automation code have been removed. Accounts still selects the destination calendars for event creation. Open Calendar or Outlook manually to view or edit events. No Automation permission is requested by MyEvent.
-
-The popup notes area omits the generated Start/End preamble and Details heading. The date summary above the divider and the complete calendar event notes are preserved.
+Destination calendars are captured when preparing each draft and displayed in the popup. Account changes affect future drafts; unavailable reviewed destinations block confirmation. The popup does not open Calendar or Outlook or request Automation permission. Manual edits are saved as entered, without automatic retranslation.
 
 ## Source repository
 

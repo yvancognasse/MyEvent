@@ -13,15 +13,15 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.3.13</string>
+	<string>1.3.15</string>
 	<key>CFBundleVersion</key>
-	<string>17</string>
+	<string>19</string>
 	<key>LSMinimumSystemVersion</key>
 	<string>14.0</string>
 	<key>CFBundleIconFile</key>
 	<string>AppIcon.icns</string>
 	<key>NSCalendarsFullAccessUsageDescription</key>
-	<string>MyEvent lists your calendars so you can choose destinations and immediately add events using your shortcut.</string>
+	<string>MyEvent lists your calendars so you can choose destinations and create events after confirmation.</string>
 	<key>NSCalendarsUsageDescription</key>
 	<string>MyEvent adds events to the calendars you select when you use the shortcut.</string>
 	<key>CFBundleDevelopmentRegion</key>
@@ -41,7 +41,7 @@
 	<key>NSHighResolutionCapable</key>
 	<true/>
 	<key>MyEventBuildDate</key>
-	<string>2026-10-31T23:01:58Z</string>
+	<string>2026-11-01T17:11:21Z</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>NSPrincipalClass</key>

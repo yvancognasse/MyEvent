@@ -29,12 +29,6 @@ final class AppModel: ObservableObject {
     @Published var selected: Set<String> = Set(UserDefaults.standard.stringArray(forKey: "calendars") ?? [])
     @Published var shortcut = (UserDefaults.standard.data(forKey: "shortcut").flatMap { try? JSONDecoder().decode(Shortcut.self, from: $0) }) ?? Shortcut()
     @Published var error = ""
-    @Published var durationMinutes = UserDefaults.standard.object(forKey: "durationMinutes") as? Int ?? 60 {
-        didSet { UserDefaults.standard.set(durationMinutes, forKey: "durationMinutes") }
-    }
-    @Published var defaultHour = UserDefaults.standard.object(forKey: "defaultHour") as? Int ?? 9 {
-        didSet { UserDefaults.standard.set(defaultHour, forKey: "defaultHour") }
-    }
     @Published var accessibilityGranted = AXIsProcessTrusted()
     private var lastCapture = Date.distantPast
     @Published var recording = false
@@ -84,16 +78,24 @@ final class AppModel: ObservableObject {
             guard authorized, !destinations.isEmpty, !missingDestinations else {
                 throw CaptureError.destinations
             }
+            let calendarIDs = destinations.map(\.calendarIdentifier)
+            let names = destinations.map { "\($0.source.title) / \($0.title)" }
             let text = try await SelectionReader.read()
             let selectedLanguage = language
             let capturedAt = Date()
             let translated = try await EventTextTranslator.translate(text, to: selectedLanguage)
-            let draft = EventContentBuilder.build(source: text, translated: translated, language: selectedLanguage, now: capturedAt, defaultDuration: TimeInterval(durationMinutes * 60), defaultHour: defaultHour)
-            refresh()
-            guard authorized, !destinations.isEmpty, !missingDestinations else { throw CaptureError.destinations }
-            try save(draft)
+            let draft = EventContentBuilder.build(source: text, translated: translated, language: selectedLanguage, now: capturedAt)
             error = ""
-            EventPopup.created(EventReceipt(draft: draft, destinations: destinations.map { "\($0.source.title) / \($0.title)" }, language: selectedLanguage))
+            EventPopup.review(EventReceipt(draft: draft, destinations: names, language: selectedLanguage)) { [weak self] edited in
+                guard let self else { throw CaptureError.destinations }
+                do {
+                    try self.save(edited, to: calendarIDs)
+                    self.error = ""
+                } catch {
+                    self.error = error.localizedDescription
+                    throw error
+                }
+            }
         } catch {
             self.error = error.localizedDescription
             EventPopup.failed(error.localizedDescription)
@@ -108,12 +110,20 @@ final class AppModel: ObservableObject {
             }
         }
     }
-    func save(_ draft: EventDraft) throws {
+    func save(_ draft: EventDraft, to calendarIDs: [String]) throws {
+        refreshPermissions()
+        let reviewedCalendars = calendarIDs.compactMap { store.calendar(withIdentifier: $0) }
+        guard authorized, !calendarIDs.isEmpty,
+              Set(calendarIDs).count == calendarIDs.count,
+              reviewedCalendars.count == calendarIDs.count,
+              reviewedCalendars.allSatisfy(\.allowsContentModifications) else {
+            throw CaptureError.destinations
+        }
         guard !draft.title.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty, draft.end > draft.start else {
             throw CaptureError.invalidEvent
         }
         do {
-            for calendar in destinations {
+            for calendar in reviewedCalendars {
                 let event = EKEvent(eventStore: store)
                 event.calendar = calendar
                 event.title = draft.title
@@ -284,7 +294,7 @@ struct MainView: View {
                     Image(nsImage: icon).resizable().frame(width: 28, height: 28)
                 }
                 VStack(alignment: .leading, spacing: 3) {
-                    Text(model.busy ? tr("Creating event…") : "MyEvent")
+                    Text(model.busy ? tr("Preparing event…") : "MyEvent")
                         .lineLimit(2).font(.caption)
                     Text(BuildInfo.label).font(.caption2).foregroundStyle(.secondary).textSelection(.enabled)
                 }
@@ -321,32 +331,11 @@ struct MainView: View {
                 }
                 GridRow {
                     Color.clear.gridCellUnsizedAxes([.horizontal, .vertical])
-                    Text(tr("Select text and press the shortcut. The event is added immediately."))
+                    Text(tr("Select text and press the shortcut. Review the details before creating the event."))
                         .font(.caption).foregroundStyle(.secondary).fixedSize(horizontal: false, vertical: true)
                 }
             }
             Text(tr("The chosen language is used for the event title and detailed notes.")).font(.caption).foregroundStyle(.secondary)
-            Divider()
-            Grid(alignment: .leading, horizontalSpacing: 12, verticalSpacing: 15) {
-                GridRow {
-                    caption(tr("Default duration:"))
-                    Picker(tr("Default duration"), selection: $model.durationMinutes) {
-                        Text(tr("15 minutes")).tag(15); Text(tr("30 minutes")).tag(30)
-                        Text(tr("1 hour")).tag(60); Text(tr("1 hour 30 minutes")).tag(90); Text(tr("2 hours")).tag(120)
-                    }.labelsHidden().frame(width: 230)
-                }
-                GridRow {
-                    caption(tr("Default time:"))
-                    Picker(tr("Default time"), selection: $model.defaultHour) {
-                        ForEach(0..<24, id: \.self) { Text(String(format: "%02d:00", $0)).tag($0) }
-                    }.labelsHidden().frame(width: 230)
-                }
-                GridRow {
-                    Color.clear.gridCellUnsizedAxes([.horizontal, .vertical])
-                    Text(tr("Without a recognized date: tomorrow at the default time. Without an end time: default duration. Time zone:") + " " + TimeZone.current.identifier)
-                        .font(.caption).foregroundStyle(.secondary).fixedSize(horizontal: false, vertical: true)
-                }
-            }
             Divider()
             Text(tr("The red button quits MyEvent and disables the shortcut. The yellow button minimizes the window and keeps MyEvent running."))
                 .font(.caption).foregroundStyle(.secondary)
