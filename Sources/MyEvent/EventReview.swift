@@ -16,6 +16,7 @@ final class EventReviewModel: ObservableObject {
     typealias TranslateText = (String, AppLanguage, Locale.Language?) async throws -> String
     private let translateText: TranslateText
     private var translationTask: Task<EventDraft, Error>?
+    private var suggestedTitle: String
     let destinations: [String]
     private let save: (EventDraft) throws -> Void
 
@@ -26,6 +27,7 @@ final class EventReviewModel: ObservableObject {
         var editable = receipt.draft
         editable.notes = receipt.displayedNotes
         draft = editable
+        suggestedTitle = editable.title
         link = editable.url?.absoluteString ?? ""
         participants = editable.participants.joined(separator: ", ")
         language = receipt.language
@@ -41,6 +43,7 @@ final class EventReviewModel: ObservableObject {
         translating = true
         error = ""
         let snapshot = draft
+        let shortenTranslatedTitle = snapshot.title == suggestedTitle
         let source = eventLanguage.map { Locale.Language(identifier: $0.rawValue) }
             ?? EventTextTranslator.detectedLanguage(in: snapshot.notes + "\n" + snapshot.title)
         let translate = translateText
@@ -61,7 +64,8 @@ final class EventReviewModel: ObservableObject {
                 return translated
             }
             var result = snapshot
-            result.title = try await field(snapshot.title)
+            let translatedTitle = try await field(snapshot.title)
+            result.title = shortenTranslatedTitle ? EventTitle.concise(translatedTitle) : translatedTitle
             result.location = try await field(snapshot.location)
             result.notes = try await field(snapshot.notes)
             try Task.checkCancellation()
@@ -73,6 +77,7 @@ final class EventReviewModel: ObservableObject {
             let translated = try await task.value
             guard !task.isCancelled else { return }
             draft = translated
+            if shortenTranslatedTitle { suggestedTitle = translated.title }
             eventLanguage = target
         } catch is CancellationError {
             // Keep all edited values and the previous content language.

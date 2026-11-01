@@ -184,6 +184,25 @@ final class EventReviewTests: XCTestCase {
         XCTAssertEqual(writes, 0)
     }
 
+    func testAutomaticTitleStaysShortAfterTranslation() async {
+        let model = EventReviewModel(receipt: receipt(), translateText: { text, _, _ in
+            text == "Original" ? "Réunion de préparation du budget avec toutes les équipes internationales et les partenaires du projet" : text
+        }) { _ in }
+        await model.translateEvent(to: .french)
+        XCTAssertEqual(model.eventLanguage, .french)
+        XCTAssertLessThanOrEqual(model.draft.title.count, 60)
+        XCTAssertLessThanOrEqual(model.draft.title.split(separator: " ").count, 8)
+        XCTAssertFalse(model.draft.title.contains("…"))
+    }
+
+    func testManualTitleIsNotSilentlyShortenedDuringTranslation() async {
+        let title = "Manually chosen title " + String(repeating: "important context ", count: 8)
+        let model = EventReviewModel(receipt: receipt(), translateText: { text, _, _ in text }) { _ in }
+        model.draft.title = title
+        await model.translateEvent(to: .french)
+        XCTAssertEqual(model.draft.title, title)
+    }
+
     func testTranslationFailureRetainsEditsAndPreviousLanguage() async {
         var calls = 0
         let model = EventReviewModel(receipt: receipt(), translateText: { text, _, _ in
