@@ -146,14 +146,13 @@ enum EventContentBuilder {
         let detector = try? NSDataDetector(types: NSTextCheckingResult.CheckingType.link.rawValue)
         let links = detector?.matches(in: translated, range: NSRange(translated.startIndex..., in: translated)).compactMap(\.url) ?? []
         func unique(_ values: [String]) -> [String] { var seen = Set<String>(); return values.filter { seen.insert($0).inserted } }
-        let emails = unique(links.filter { $0.scheme == "mailto" }.map { String($0.absoluteString.dropFirst(7)).removingPercentEncoding ?? "" })
+        draft.participants = EventParticipants.detected(in: source)
         let webLinks = unique(links.filter { ["https", "http"].contains($0.scheme?.lowercased() ?? "") }.map(\.absoluteString))
         draft.url = webLinks.first.flatMap(URL.init(string:))
         func label(_ key: String) -> String { Translations.text(key, language: language) }
         let dateFormat = Date.FormatStyle(date: .complete, time: .shortened, locale: Locale(identifier: language.rawValue), calendar: calendar, timeZone: calendar.timeZone)
         var sections = ["\(label("Start")): \(draft.start.formatted(dateFormat))", "\(label("End")): \(draft.end.formatted(dateFormat))"]
         if !draft.location.isEmpty { sections.append("\(label("Location")): \(draft.location)") }
-        if !emails.isEmpty { sections.append("\(label("Participants")):\n" + emails.joined(separator: "\n")) }
         if !webLinks.isEmpty { sections.append("\(label("Links")):\n" + webLinks.joined(separator: "\n")) }
         sections.append("\(label("Details")):\n\(translated)")
         draft.notes = sections.joined(separator: "\n\n")

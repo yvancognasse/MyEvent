@@ -8,6 +8,7 @@ struct EventDraft {
     var url: URL? = nil
     var notes: String
     var detectedDate: Bool
+    var participants: [String] = []
 }
 
 /// Local extraction with fallback dates for an editable event draft.

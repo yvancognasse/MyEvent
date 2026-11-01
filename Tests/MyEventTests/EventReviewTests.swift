@@ -86,6 +86,65 @@ final class EventReviewTests: XCTestCase {
         XCTAssertTrue(model.confirmed)
         XCTAssertNil(saved?.url)
     }
+    func testParticipantFieldPrefillsAndSavesEditedRosterInNotesOnly() {
+        var original = receipt()
+        var sourceDraft = original.draft
+        sourceDraft.participants = ["anna@example.com", "sam@example.com"]
+        original = EventReceipt(draft: sourceDraft, destinations: original.destinations, language: .english, contentLanguage: .english)
+        var saved: [EventDraft] = []
+        let model = EventReviewModel(receipt: original) { saved.append($0) }
+        XCTAssertEqual(model.participants, "anna@example.com, sam@example.com")
+        XCTAssertTrue(saved.isEmpty)
+        model.participants = "Anna Martin; anna@example.com\nANNA@example.com, new@example.com"
+        model.confirm()
+        model.confirm()
+        XCTAssertEqual(saved.count, 1)
+        XCTAssertEqual(saved[0].participants, ["Anna Martin", "anna@example.com", "new@example.com"])
+        XCTAssertEqual(saved[0].notes, "Participants:\nAnna Martin\nanna@example.com\nnew@example.com\n\nBudget to review")
+        let summary = EventReceipt(draft: saved[0], destinations: original.destinations, language: .english, contentLanguage: .english)
+        XCTAssertEqual(summary.displayedNotes, "Budget to review")
+    }
+
+    func testClearingParticipantFieldOmitsRosterAndKeepsSourceNotes() {
+        let original = receipt()
+        var sourceDraft = original.draft
+        sourceDraft.participants = ["anna@example.com"]
+        sourceDraft.notes = "Source mentions anna@example.com"
+        var saved: EventDraft?
+        let model = EventReviewModel(receipt: EventReceipt(draft: sourceDraft, destinations: original.destinations, language: .english)) { saved = $0 }
+        model.participants = " ; , \n"
+        model.confirm()
+        XCTAssertEqual(saved?.participants, [])
+        XCTAssertEqual(saved?.notes, "Source mentions anna@example.com")
+    }
+
+    func testTranslationPreservesParticipantEntriesAndLocalizesSavedHeading() async {
+        var saved: EventDraft?
+        let model = EventReviewModel(receipt: receipt(), translateText: { text, _, _ in "DE: " + text }) { saved = $0 }
+        model.participants = "Anna Martin; anna@example.com"
+        await model.translateEvent(to: .german)
+        XCTAssertEqual(model.participants, "Anna Martin; anna@example.com")
+        model.confirm()
+        XCTAssertEqual(saved?.participants, ["Anna Martin", "anna@example.com"])
+        XCTAssertTrue(saved?.notes.hasPrefix("Teilnehmer:\nAnna Martin\nanna@example.com\n\n") == true)
+    }
+
+    func testFailedSaveDoesNotDuplicateParticipantNotesOnRetry() {
+        var attempts: [EventDraft] = []
+        let model = EventReviewModel(receipt: receipt()) { draft in
+            attempts.append(draft)
+            if attempts.count == 1 { throw NSError(domain: "Fixture", code: 1) }
+        }
+        model.participants = "anna@example.com"
+        model.confirm()
+        XCTAssertFalse(model.confirmed)
+        XCTAssertEqual(model.draft.notes, "Budget to review")
+        model.confirm()
+        XCTAssertTrue(model.confirmed)
+        XCTAssertEqual(attempts.count, 2)
+        XCTAssertEqual(attempts[0].notes, attempts[1].notes)
+    }
+
     func testInterfaceLanguageIsIndependentOfOriginalEventText() {
         let original = receipt()
         let differentUI = EventReceipt(draft: original.draft, destinations: original.destinations,

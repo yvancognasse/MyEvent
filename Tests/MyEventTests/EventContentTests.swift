@@ -8,14 +8,15 @@ final class EventContentTests: XCTestCase {
         var calendar = Calendar(identifier: .gregorian)
         calendar.timeZone = TimeZone(identifier: "Europe/Paris")!
         let now = calendar.date(from: DateComponents(year: 2026, month: 10, day: 31, hour: 14))!
-        let draft = EventContentBuilder.build(source: "Réunion demain de 14h30 à 15h45\nLieu: Paris\nBudget à valider", translated: "Betreff: Projektbesprechung\nOrt: Paris\nBudget prüfen\nanna@example.com\nhttps://example.com/meeting", language: .german, now: now, calendar: calendar)
+        let draft = EventContentBuilder.build(source: "Réunion demain de 14h30 à 15h45\nLieu: Paris\nBudget à valider\nanna@example.com\nhttps://example.com/meeting", translated: "Betreff: Projektbesprechung\nOrt: Paris\nBudget prüfen\nanna@example.com\nhttps://example.com/meeting", language: .german, now: now, calendar: calendar)
         XCTAssertEqual(draft.title, "Projektbesprechung")
         XCTAssertEqual(calendar.component(.day, from: draft.start), 1)
         XCTAssertEqual(calendar.component(.hour, from: draft.start), 14)
         XCTAssertEqual(draft.end.timeIntervalSince(draft.start), 4500)
         XCTAssertEqual(draft.location, "Paris")
         XCTAssertEqual(draft.url?.absoluteString, "https://example.com/meeting")
-        XCTAssertTrue(draft.notes.contains("Teilnehmer:\nanna@example.com"))
+        XCTAssertEqual(draft.participants, ["anna@example.com"])
+        XCTAssertFalse(draft.notes.contains("Teilnehmer:\nanna@example.com"))
         XCTAssertTrue(draft.notes.contains("Budget prüfen"))
         XCTAssertFalse(draft.notes.contains("Budget à valider"))
     }

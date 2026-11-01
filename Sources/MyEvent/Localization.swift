@@ -1312,6 +1312,32 @@ enum Translations {
     "it": "La lingua in Generali controlla l'interfaccia. Scegli la lingua dell'evento nella finestra di revisione.",
     "ru": "Язык в разделе «Основные» задаёт язык интерфейса. Выберите язык события в окне проверки.",
     "nl": "De taal in Algemeen bepaalt de interface. Kies de taal van de afspraak in het controlevenster."
+  },
+  "Names or email addresses, separated by commas, semicolons or new lines.": {
+    "en": "Names or email addresses, separated by commas, semicolons or new lines.",
+    "zh-Hans": "姓名或电子邮件地址，用逗号、分号或换行分隔。",
+    "hi": "नाम या ईमेल पते, कॉमा, सेमीकोलन या नई पंक्तियों से अलग करें।",
+    "es": "Nombres o direcciones de correo, separados por comas, puntos y coma o saltos de línea.",
+    "ar": "أسماء أو عناوين بريد إلكتروني، مفصولة بفواصل أو فواصل منقوطة أو أسطر جديدة.",
+    "fr": "Noms ou adresses email, séparés par des virgules, des points-virgules ou des retours à la ligne.",
+    "pt": "Nomes ou endereços de email, separados por vírgulas, ponto e vírgula ou novas linhas.",
+    "de": "Namen oder E-Mail-Adressen, getrennt durch Kommas, Semikolons oder Zeilenumbrüche.",
+    "it": "Nomi o indirizzi email, separati da virgole, punti e virgola o nuove righe.",
+    "ru": "Имена или адреса электронной почты через запятую, точку с запятой или с новой строки.",
+    "nl": "Namen of e-mailadressen, gescheiden door komma's, puntkomma's of nieuwe regels."
+  },
+  "Saved in event notes only. No invitations are sent.": {
+    "en": "Saved in event notes only. No invitations are sent.",
+    "zh-Hans": "仅保存到日程备注中，不会发送邀请。",
+    "hi": "केवल इवेंट के नोट्स में सहेजा जाएगा। कोई आमंत्रण नहीं भेजा जाएगा।",
+    "es": "Se guarda solo en las notas del evento. No se envían invitaciones.",
+    "ar": "تُحفظ في ملاحظات الحدث فقط. لا تُرسل أي دعوات.",
+    "fr": "Enregistrés uniquement dans les notes de l'événement. Aucune invitation n'est envoyée.",
+    "pt": "Salvos apenas nas notas do evento. Nenhum convite é enviado.",
+    "de": "Wird nur in den Terminnotizen gespeichert. Es werden keine Einladungen gesendet.",
+    "it": "Salvati solo nelle note dell'evento. Non vengono inviati inviti.",
+    "ru": "Сохраняется только в заметках события. Приглашения не отправляются.",
+    "nl": "Alleen opgeslagen in de afspraaknotities. Er worden geen uitnodigingen verzonden."
   }
 }
 """#

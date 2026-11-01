@@ -14,6 +14,12 @@ struct EventReceipt {
         if sections.count >= 2, sections[0].hasPrefix(startLabel), sections[1].hasPrefix(endLabel) {
             sections.removeFirst(2)
         }
+        // The saved roster comes from the separate field; show it separately in
+        // the confirmation summary without duplicating its generated notes block.
+        if !draft.participants.isEmpty {
+            let roster = Translations.text("Participants", language: contentLanguage ?? language) + ":\n" + draft.participants.joined(separator: "\n")
+            if sections.first == roster { sections.removeFirst() }
+        }
         let detailsLabel = Translations.text("Details", language: contentLanguage ?? language) + ":\n"
         return sections.map { section in
             section.hasPrefix(detailsLabel) ? String(section.dropFirst(detailsLabel.count)) : section
@@ -94,9 +100,12 @@ private struct EventReviewView: View {
                         Text(text("End") + ": " + receipt.end)
                         if !model.draft.location.isEmpty { Text(text("Location") + ": " + model.draft.location) }
                         if let url = model.draft.url { Text(text("Link") + ": " + url.absoluteString) }
-                        if !model.draft.notes.isEmpty {
+                        if !model.draft.participants.isEmpty {
+                            Text(text("Participants") + ": " + model.draft.participants.joined(separator: ", "))
+                        }
+                        if !receipt.displayedNotes.isEmpty {
                             Divider()
-                            Text(model.draft.notes).font(.callout)
+                            Text(receipt.displayedNotes).font(.callout)
                         }
                     }.frame(maxWidth: .infinity, alignment: .leading).textSelection(.enabled)
                 } else {
@@ -119,6 +128,14 @@ private struct EventReviewView: View {
                         LabeledContent(text("Location")) { TextField(text("Location"), text: $model.draft.location).labelsHidden()
                             .environment(\.layoutDirection, model.eventLanguage?.isRightToLeft == true ? .rightToLeft : .leftToRight) }
                         LabeledContent(text("Link")) { TextField(text("Link"), text: $model.link).labelsHidden() }
+                        LabeledContent(text("Participants")) {
+                            TextField(text("Participants"), text: $model.participants, axis: .vertical)
+                                .labelsHidden().lineLimit(2...4)
+                        }
+                        Text(text("Names or email addresses, separated by commas, semicolons or new lines."))
+                            .font(.caption).foregroundStyle(.secondary)
+                        Text(text("Saved in event notes only. No invitations are sent."))
+                            .font(.caption).foregroundStyle(.secondary)
                         Divider()
                         Text(text("Notes")).font(.callout)
                         TextEditor(text: $model.draft.notes)
