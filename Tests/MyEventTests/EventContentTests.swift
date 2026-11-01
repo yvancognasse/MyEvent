@@ -34,7 +34,6 @@ final class EventContentTests: XCTestCase {
         for (language, translated, title, location, detailsLabel, detail) in [
             (AppLanguage.russian, "Тема: Обсуждение бюджета\nМесто: Париж\nПроверить бюджет", "Обсуждение бюджета", "Париж", "Подробности", "Проверить бюджет"),
             (AppLanguage.dutch, "Onderwerp: Budgetoverleg\nLocatie: Parijs\nBudget controleren", "Budgetoverleg", "Parijs", "Details", "Budget controleren"),
-            (AppLanguage.romanian, "Titlu: Ședință de buget\nLocație: Paris\nVerificarea bugetului", "Ședință de buget", "Paris", "Detalii", "Verificarea bugetului")
         ] {
             let draft = EventContentBuilder.build(source: source, translated: translated, language: language, now: now)
             XCTAssertEqual(draft.title, title)
@@ -51,7 +50,6 @@ final class EventContentTests: XCTestCase {
         for (language, text) in [
             (AppLanguage.russian, "Встреча команды для обсуждения бюджета проекта и подготовки плана работы на следующую неделю."),
             (AppLanguage.dutch, "Vergadering met het verkoopteam om de begroting te bespreken en de volgende stappen voor het project af te spreken."),
-            (AppLanguage.romanian, "Ședință cu echipa pentru a discuta bugetul proiectului și pentru a stabili următorii pași și responsabilitățile fiecăruia.")
         ] {
             let translated = try await EventTextTranslator.translate(text, to: language)
             XCTAssertEqual(translated, text)
@@ -135,6 +133,7 @@ final class EventContentTests: XCTestCase {
     }
 
     func testLanguageRemovedFromPreferencesFallsBackToEnglish() {
+        XCTAssertNil(AppLanguage(rawValue: "ro"))
         XCTAssertNil(AppLanguage(rawValue: "bn"))
         XCTAssertNil(AppLanguage(rawValue: "id"))
         XCTAssertNil(AppLanguage(rawValue: "ur"))

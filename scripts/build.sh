@@ -7,7 +7,7 @@ python3 scripts/update_release.py
 swift build -c release --disable-sandbox --cache-path .build/cache
 APP="$PWD/dist/MyEvent.app"
 # Remove retired language resources from earlier packaged versions.
-for retired in bn id ur; do
+for retired in bn id ur ro; do
     rm -rf "$APP/Contents/Resources/$retired.lproj"
 done
 mkdir -p "$APP/Contents/MacOS" "$APP/Contents/Resources"

@@ -21,7 +21,6 @@ final class EventParserTests: XCTestCase {
         for (text, offset) in [
             ("Встреча сегодня 14:30", 0), ("Встреча завтра 14:30", 1), ("Встреча послезавтра 14:30", 2),
             ("Overleg vandaag 14:30", 0), ("Overleg morgen 14:30", 1), ("Overleg overmorgen 14:30", 2),
-            ("Ședință astăzi 14:30", 0), ("Ședință mâine 14:30", 1), ("Ședință poimâine 14:30", 2)
         ] {
             let draft = EventParser.parse(text + " – 15:45", now: now, calendar: calendar)
             let expected = calendar.date(byAdding: .day, value: offset, to: now)!
@@ -33,7 +32,7 @@ final class EventParserTests: XCTestCase {
         }
     }
     func testNewLanguagesRecognizeWeekdays() {
-        for text in ["Встреча понедельник 10:00", "Overleg maandag 10:00", "Ședință luni 10:00"] {
+        for text in ["Встреча понедельник 10:00", "Overleg maandag 10:00"] {
             let draft = EventParser.parse(text, now: now, calendar: calendar)
             XCTAssertEqual(calendar.component(.weekday, from: draft.start), 2, text)
             XCTAssertEqual(calendar.component(.day, from: draft.start), 2, text)

@@ -2,10 +2,10 @@ import XCTest
 @testable import MyEvent
 
 final class LocalizationTests: XCTestCase {
-    func testAllTwelveLanguagesHaveEveryTranslation() {
-        XCTAssertEqual(AppLanguage.allCases.count, 12)
+    func testAllElevenLanguagesHaveEveryTranslation() {
+        XCTAssertEqual(AppLanguage.allCases.count, 11)
         for (key, translations) in Translations.values {
-            XCTAssertEqual(translations.count, 12, key)
+            XCTAssertEqual(translations.count, 11, key)
             for language in AppLanguage.allCases {
                 XCTAssertFalse(translations[language.rawValue, default: ""].isEmpty, "\(language): \(key)")
             }
@@ -22,7 +22,6 @@ final class LocalizationTests: XCTestCase {
         for (code, language, name, create, quit, hide) in [
             ("ru", AppLanguage.russian, "Русский · Russian", "Создать событие", "Выйти", "Скрыть"),
             ("nl", AppLanguage.dutch, "Nederlands · Dutch", "Afspraak maken", "Stoppen", "Verberg"),
-            ("ro", AppLanguage.romanian, "Română · Romanian", "Creează evenimentul", "Ieșire", "Ascunde")
         ] {
             XCTAssertEqual(AppLanguage(rawValue: code), language)
             XCTAssertEqual(language.displayName, name)

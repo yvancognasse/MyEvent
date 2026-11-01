@@ -31,21 +31,21 @@ enum EventParser {
                 return folded.range(of: "\\b" + NSRegularExpression.escapedPattern(for: word) + "\\b", options: .regularExpression) != nil
             }
         }
-        let relative: Int? = containsAny(["apres-demain", "apres demain", "day after tomorrow", "ubermorgen", "dopodomani", "overmorgen", "poimaine", "послезавтра", "pasado manana", "depois de amanha", "后天", "परसों", "بعد غد"]) ? 2
-            : containsAny(["demain", "tomorrow", "morgen", "domani", "maine", "завтра", "manana", "amanha", "明天", "कल", "غدا"]) ? 1
-            : containsAny(["aujourd'hui", "aujourd’hui", "today", "heute", "oggi", "vandaag", "azi", "astazi", "сегодня", "hoy", "hoje", "今天", "आज", "اليوم"]) ? 0 : nil
+        let relative: Int? = containsAny(["apres-demain", "apres demain", "day after tomorrow", "ubermorgen", "dopodomani", "overmorgen", "послезавтра", "pasado manana", "depois de amanha", "后天", "परसों", "بعد غد"]) ? 2
+            : containsAny(["demain", "tomorrow", "morgen", "domani", "завтра", "manana", "amanha", "明天", "कल", "غدا"]) ? 1
+            : containsAny(["aujourd'hui", "aujourd’hui", "today", "heute", "oggi", "vandaag", "сегодня", "hoy", "hoje", "今天", "आज", "اليوم"]) ? 0 : nil
         if let days = relative {
             start = calendar.date(bySettingHour: defaultHour, minute: 0, second: 0, of: calendar.date(byAdding: .day, value: days, to: now)!)!
             detected = true
         } else if first == nil || firstIsTimeOnly {
             let weekdays = [
-                ["dimanche", "sunday", "sonntag", "zondag", "duminica", "воскресенье", "domenica", "domingo", "星期日", "周日", "रविवार", "الاحد"],
-                ["lundi", "monday", "montag", "maandag", "luni", "понедельник", "lunedi", "lunes", "segunda-feira", "星期一", "周一", "सोमवार", "الاثنين"],
-                ["mardi", "tuesday", "dienstag", "dinsdag", "marti", "вторник", "martedi", "martes", "terca-feira", "星期二", "周二", "मंगलवार", "الثلاثاء"],
-                ["mercredi", "wednesday", "mittwoch", "woensdag", "miercuri", "среда", "mercoledi", "miercoles", "quarta-feira", "星期三", "周三", "बुधवार", "الاربعاء"],
-                ["jeudi", "thursday", "donnerstag", "donderdag", "joi", "четверг", "giovedi", "jueves", "quinta-feira", "星期四", "周四", "गुरुवार", "الخميس"],
-                ["vendredi", "friday", "freitag", "vrijdag", "vineri", "пятница", "venerdi", "viernes", "sexta-feira", "星期五", "周五", "शुक्रवार", "الجمعة"],
-                ["samedi", "saturday", "samstag", "zaterdag", "sambata", "суббота", "sabato", "sabado", "星期六", "周六", "शनिवार", "السبت"]
+                ["dimanche", "sunday", "sonntag", "zondag", "воскресенье", "domenica", "domingo", "星期日", "周日", "रविवार", "الاحد"],
+                ["lundi", "monday", "montag", "maandag", "понедельник", "lunedi", "lunes", "segunda-feira", "星期一", "周一", "सोमवार", "الاثنين"],
+                ["mardi", "tuesday", "dienstag", "dinsdag", "вторник", "martedi", "martes", "terca-feira", "星期二", "周二", "मंगलवार", "الثلاثاء"],
+                ["mercredi", "wednesday", "mittwoch", "woensdag", "среда", "mercoledi", "miercoles", "quarta-feira", "星期三", "周三", "बुधवार", "الاربعاء"],
+                ["jeudi", "thursday", "donnerstag", "donderdag", "четверг", "giovedi", "jueves", "quinta-feira", "星期四", "周四", "गुरुवार", "الخميس"],
+                ["vendredi", "friday", "freitag", "vrijdag", "пятница", "venerdi", "viernes", "sexta-feira", "星期五", "周五", "शुक्रवार", "الجمعة"],
+                ["samedi", "saturday", "samstag", "zaterdag", "суббота", "sabato", "sabado", "星期六", "周六", "शनिवार", "السبت"]
             ]
             if let index = weekdays.firstIndex(where: { containsAny($0) }) {
                 var days = (index + 1 - calendar.component(.weekday, from: now) + 7) % 7

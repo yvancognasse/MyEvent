@@ -3,7 +3,7 @@ import Foundation
 enum AppLanguage: String, CaseIterable, Identifiable {
     case english = "en", mandarin = "zh-Hans", hindi = "hi", spanish = "es", arabic = "ar"
     case french = "fr", portuguese = "pt", german = "de", italian = "it"
-    case russian = "ru", dutch = "nl", romanian = "ro"
+    case russian = "ru", dutch = "nl"
     var id: String { rawValue }
     var displayName: String {
         switch self {
@@ -17,7 +17,6 @@ enum AppLanguage: String, CaseIterable, Identifiable {
         case .italian: return "Italiano · Italian"
         case .russian: return "Русский · Russian"
         case .dutch: return "Nederlands · Dutch"
-        case .romanian: return "Română · Romanian"
         case .portuguese: return "Português · Portuguese"
         }
     }
@@ -51,8 +50,7 @@ enum Translations {
     "de": "Allgemein",
     "it": "Generali",
     "ru": "Основные",
-    "nl": "Algemeen",
-    "ro": "General"
+    "nl": "Algemeen"
   },
   "Accounts": {
     "en": "Accounts",
@@ -65,8 +63,7 @@ enum Translations {
     "de": "Konten",
     "it": "Account",
     "ru": "Учётные записи",
-    "nl": "Accounts",
-    "ro": "Conturi"
+    "nl": "Accounts"
   },
   "Permissions": {
     "en": "Permissions",
@@ -79,8 +76,7 @@ enum Translations {
     "de": "Berechtigungen",
     "it": "Autorizzazioni",
     "ru": "Разрешения",
-    "nl": "Machtigingen",
-    "ro": "Permisiuni"
+    "nl": "Machtigingen"
   },
   "Settings": {
     "en": "Settings",
@@ -93,8 +89,7 @@ enum Translations {
     "de": "Einstellungen",
     "it": "Impostazioni",
     "ru": "Настройки",
-    "nl": "Instellingen",
-    "ro": "Configurări"
+    "nl": "Instellingen"
   },
   "Settings…": {
     "en": "Settings…",
@@ -107,8 +102,7 @@ enum Translations {
     "de": "Einstellungen…",
     "it": "Impostazioni…",
     "ru": "Настройки…",
-    "nl": "Instellingen…",
-    "ro": "Configurări…"
+    "nl": "Instellingen…"
   },
   "Language:": {
     "en": "Language:",
@@ -121,8 +115,7 @@ enum Translations {
     "de": "Sprache:",
     "it": "Lingua:",
     "ru": "Язык:",
-    "nl": "Taal:",
-    "ro": "Limbă:"
+    "nl": "Taal:"
   },
   "Language": {
     "en": "Language",
@@ -135,8 +128,7 @@ enum Translations {
     "de": "Sprache",
     "it": "Lingua",
     "ru": "Язык",
-    "nl": "Taal",
-    "ro": "Limbă"
+    "nl": "Taal"
   },
   "Global shortcut:": {
     "en": "Global shortcut:",
@@ -149,8 +141,7 @@ enum Translations {
     "de": "Globales Tastenkürzel:",
     "it": "Scorciatoia globale:",
     "ru": "Сочетание клавиш:",
-    "nl": "Algemene sneltoets:",
-    "ro": "Scurtătură globală:"
+    "nl": "Algemene sneltoets:"
   },
   "Press your shortcut…": {
     "en": "Press your shortcut…",
@@ -163,8 +154,7 @@ enum Translations {
     "de": "Tastenkürzel drücken…",
     "it": "Premi la scorciatoia…",
     "ru": "Нажмите сочетание клавиш…",
-    "nl": "Druk op uw sneltoets…",
-    "ro": "Apăsați scurtătura…"
+    "nl": "Druk op uw sneltoets…"
   },
   "Cancel": {
     "en": "Cancel",
@@ -177,8 +167,7 @@ enum Translations {
     "de": "Abbrechen",
     "it": "Annulla",
     "ru": "Отмена",
-    "nl": "Annuleren",
-    "ro": "Anulează"
+    "nl": "Annuleren"
   },
   "Select text and press the shortcut. The event is added immediately.": {
     "en": "Select text and press the shortcut. The event is added immediately.",
@@ -191,8 +180,7 @@ enum Translations {
     "de": "Text auswählen und das Tastenkürzel drücken. Der Termin wird sofort hinzugefügt.",
     "it": "Seleziona il testo e premi la scorciatoia. L'evento viene aggiunto subito.",
     "ru": "Выделите текст и нажмите сочетание клавиш. Событие будет добавлено сразу.",
-    "nl": "Selecteer tekst en druk op de sneltoets. De afspraak wordt direct toegevoegd.",
-    "ro": "Selectați textul și apăsați scurtătura. Evenimentul este adăugat imediat."
+    "nl": "Selecteer tekst en druk op de sneltoets. De afspraak wordt direct toegevoegd."
   },
   "Default duration:": {
     "en": "Default duration:",
@@ -205,8 +193,7 @@ enum Translations {
     "de": "Standarddauer:",
     "it": "Durata predefinita:",
     "ru": "Длительность по умолчанию:",
-    "nl": "Standaardduur:",
-    "ro": "Durată implicită:"
+    "nl": "Standaardduur:"
   },
   "Default duration": {
     "en": "Default duration",
@@ -219,8 +206,7 @@ enum Translations {
     "de": "Standarddauer",
     "it": "Durata predefinita",
     "ru": "Длительность по умолчанию",
-    "nl": "Standaardduur",
-    "ro": "Durată implicită"
+    "nl": "Standaardduur"
   },
   "Default time:": {
     "en": "Default time:",
@@ -233,8 +219,7 @@ enum Translations {
     "de": "Standardzeit:",
     "it": "Ora predefinita:",
     "ru": "Время по умолчанию:",
-    "nl": "Standaardtijd:",
-    "ro": "Oră implicită:"
+    "nl": "Standaardtijd:"
   },
   "Default time": {
     "en": "Default time",
@@ -247,8 +232,7 @@ enum Translations {
     "de": "Standardzeit",
     "it": "Ora predefinita",
     "ru": "Время по умолчанию",
-    "nl": "Standaardtijd",
-    "ro": "Oră implicită"
+    "nl": "Standaardtijd"
   },
   "15 minutes": {
     "en": "15 minutes",
@@ -261,8 +245,7 @@ enum Translations {
     "de": "15 Minuten",
     "it": "15 minuti",
     "ru": "15 минут",
-    "nl": "15 minuten",
-    "ro": "15 minute"
+    "nl": "15 minuten"
   },
   "30 minutes": {
     "en": "30 minutes",
@@ -275,8 +258,7 @@ enum Translations {
     "de": "30 Minuten",
     "it": "30 minuti",
     "ru": "30 минут",
-    "nl": "30 minuten",
-    "ro": "30 de minute"
+    "nl": "30 minuten"
   },
   "1 hour": {
     "en": "1 hour",
@@ -289,8 +271,7 @@ enum Translations {
     "de": "1 Stunde",
     "it": "1 ora",
     "ru": "1 час",
-    "nl": "1 uur",
-    "ro": "1 oră"
+    "nl": "1 uur"
   },
   "1 hour 30 minutes": {
     "en": "1 hour 30 minutes",
@@ -303,8 +284,7 @@ enum Translations {
     "de": "1 Stunde 30 Minuten",
     "it": "1 ora e 30 minuti",
     "ru": "1 час 30 минут",
-    "nl": "1 uur 30 minuten",
-    "ro": "1 oră și 30 de minute"
+    "nl": "1 uur 30 minuten"
   },
   "2 hours": {
     "en": "2 hours",
@@ -317,8 +297,7 @@ enum Translations {
     "de": "2 Stunden",
     "it": "2 ore",
     "ru": "2 часа",
-    "nl": "2 uur",
-    "ro": "2 ore"
+    "nl": "2 uur"
   },
   "Without a recognized date: tomorrow at the default time. Without an end time: default duration. Time zone:": {
     "en": "Without a recognized date: tomorrow at the default time. Without an end time: default duration. Time zone:",
@@ -331,8 +310,7 @@ enum Translations {
     "de": "Ohne erkanntes Datum: morgen zur Standardzeit. Ohne Endzeit: Standarddauer. Zeitzone:",
     "it": "Senza data riconosciuta: domani all'ora predefinita. Senza ora di fine: durata predefinita. Fuso orario:",
     "ru": "Если дата не распознана: завтра во время по умолчанию. Если время окончания не указано: длительность по умолчанию. Часовой пояс:",
-    "nl": "Geen datum herkend: morgen op de standaardtijd. Geen eindtijd: standaardduur. Tijdzone:",
-    "ro": "Fără dată recunoscută: mâine la ora implicită. Fără oră de încheiere: durata implicită. Fus orar:"
+    "nl": "Geen datum herkend: morgen op de standaardtijd. Geen eindtijd: standaardduur. Tijdzone:"
   },
   "Creating event…": {
     "en": "Creating event…",
@@ -345,8 +323,7 @@ enum Translations {
     "de": "Termin wird erstellt…",
     "it": "Creazione evento…",
     "ru": "Создание события…",
-    "nl": "Afspraak maken…",
-    "ro": "Se creează evenimentul…"
+    "nl": "Afspraak maken…"
   },
   "Text processed on this Mac": {
     "en": "Text processed on this Mac",
@@ -359,8 +336,7 @@ enum Translations {
     "de": "Text wird auf diesem Mac verarbeitet",
     "it": "Testo elaborato su questo Mac",
     "ru": "Текст обрабатывается на этом Mac",
-    "nl": "Tekst wordt op deze Mac verwerkt",
-    "ro": "Text procesat pe acest Mac"
+    "nl": "Tekst wordt op deze Mac verwerkt"
   },
   "Help (English)": {
     "en": "Help (English)",
@@ -373,8 +349,7 @@ enum Translations {
     "de": "Hilfe (Englisch)",
     "it": "Aiuto (inglese)",
     "ru": "Справка (на английском)",
-    "nl": "Help (Engels)",
-    "ro": "Ajutor (în engleză)"
+    "nl": "Help (Engels)"
   },
   "Add events to:": {
     "en": "Add events to:",
@@ -387,8 +362,7 @@ enum Translations {
     "de": "Termine hinzufügen zu:",
     "it": "Aggiungi eventi a:",
     "ru": "Добавлять события в:",
-    "nl": "Afspraken toevoegen aan:",
-    "ro": "Adăugați evenimente în:"
+    "nl": "Afspraken toevoegen aan:"
   },
   "A copy is created in each selected calendar.": {
     "en": "A copy is created in each selected calendar.",
@@ -401,8 +375,7 @@ enum Translations {
     "de": "In jedem ausgewählten Kalender wird eine Kopie erstellt.",
     "it": "Viene creata una copia in ogni calendario selezionato.",
     "ru": "В каждом выбранном календаре создаётся копия.",
-    "nl": "In elke geselecteerde agenda wordt een kopie gemaakt.",
-    "ro": "Se creează o copie în fiecare calendar selectat."
+    "nl": "In elke geselecteerde agenda wordt een kopie gemaakt."
   },
   "Allow calendar access…": {
     "en": "Allow calendar access…",
@@ -415,8 +388,7 @@ enum Translations {
     "de": "Kalenderzugriff erlauben…",
     "it": "Consenti accesso ai calendari…",
     "ru": "Разрешить доступ к календарям…",
-    "nl": "Toegang tot agenda's toestaan…",
-    "ro": "Permiteți accesul la calendare…"
+    "nl": "Toegang tot agenda's toestaan…"
   },
   "No calendars available. Add an account in Calendar on this Mac.": {
     "en": "No calendars available. Add an account in Calendar on this Mac.",
@@ -429,8 +401,7 @@ enum Translations {
     "de": "Keine Kalender verfügbar. Fügen Sie in Kalender auf diesem Mac ein Konto hinzu.",
     "it": "Nessun calendario disponibile. Aggiungi un account in Calendario su questo Mac.",
     "ru": "Нет доступных календарей. Добавьте учётную запись в Календаре на этом Mac.",
-    "nl": "Geen agenda's beschikbaar. Voeg een account toe in Agenda op deze Mac.",
-    "ro": "Nu există calendare disponibile. Adăugați un cont în Calendar pe acest Mac."
+    "nl": "Geen agenda's beschikbaar. Voeg een account toe in Agenda op deze Mac."
   },
   "Account": {
     "en": "Account",
@@ -443,8 +414,7 @@ enum Translations {
     "de": "Konto",
     "it": "Account",
     "ru": "Учётная запись",
-    "nl": "Account",
-    "ro": "Cont"
+    "nl": "Account"
   },
   "Read only": {
     "en": "Read only",
@@ -457,8 +427,7 @@ enum Translations {
     "de": "Schreibgeschützt",
     "it": "Sola lettura",
     "ru": "Только чтение",
-    "nl": "Alleen-lezen",
-    "ro": "Doar citire"
+    "nl": "Alleen-lezen"
   },
   "Some selected destinations are no longer available.": {
     "en": "Some selected destinations are no longer available.",
@@ -471,8 +440,7 @@ enum Translations {
     "de": "Einige ausgewählte Ziele sind nicht mehr verfügbar.",
     "it": "Alcune destinazioni selezionate non sono più disponibili.",
     "ru": "Некоторые выбранные календари больше недоступны.",
-    "nl": "Sommige geselecteerde bestemmingen zijn niet meer beschikbaar.",
-    "ro": "Unele destinații selectate nu mai sunt disponibile."
+    "nl": "Sommige geselecteerde bestemmingen zijn niet meer beschikbaar."
   },
   "Remove unavailable destinations": {
     "en": "Remove unavailable destinations",
@@ -485,8 +453,7 @@ enum Translations {
     "de": "Nicht verfügbare Ziele entfernen",
     "it": "Rimuovi destinazioni non disponibili",
     "ru": "Удалить недоступные календари из списка",
-    "nl": "Niet-beschikbare bestemmingen verwijderen",
-    "ro": "Eliminați destinațiile indisponibile"
+    "nl": "Niet-beschikbare bestemmingen verwijderen"
   },
   "Manage accounts…": {
     "en": "Manage accounts…",
@@ -499,8 +466,7 @@ enum Translations {
     "de": "Konten verwalten…",
     "it": "Gestisci account…",
     "ru": "Управление учётными записями…",
-    "nl": "Accounts beheren…",
-    "ro": "Gestionați conturile…"
+    "nl": "Accounts beheren…"
   },
   "Refresh": {
     "en": "Refresh",
@@ -513,8 +479,7 @@ enum Translations {
     "de": "Aktualisieren",
     "it": "Aggiorna",
     "ru": "Обновить",
-    "nl": "Vernieuwen",
-    "ro": "Actualizează"
+    "nl": "Vernieuwen"
   },
   "Only accounts synced with macOS Calendar are available.": {
     "en": "Only accounts synced with macOS Calendar are available.",
@@ -527,8 +492,7 @@ enum Translations {
     "de": "Nur mit macOS Kalender synchronisierte Konten sind verfügbar.",
     "it": "Sono disponibili solo gli account sincronizzati con Calendario di macOS.",
     "ru": "Доступны только учётные записи, синхронизированные с Календарём macOS.",
-    "nl": "Alleen accounts die met Agenda van macOS zijn gesynchroniseerd, zijn beschikbaar.",
-    "ro": "Sunt disponibile doar conturile sincronizate cu aplicația Calendar din macOS."
+    "nl": "Alleen accounts die met Agenda van macOS zijn gesynchroniseerd, zijn beschikbaar."
   },
   "Calendars": {
     "en": "Calendars",
@@ -541,8 +505,7 @@ enum Translations {
     "de": "Kalender",
     "it": "Calendari",
     "ru": "Календари",
-    "nl": "Agenda's",
-    "ro": "Calendare"
+    "nl": "Agenda's"
   },
   "Show calendar destinations and add events.": {
     "en": "Show calendar destinations and add events.",
@@ -555,8 +518,7 @@ enum Translations {
     "de": "Zielkalender anzeigen und Termine hinzufügen.",
     "it": "Mostra i calendari di destinazione e aggiungi eventi.",
     "ru": "Показывать доступные календари и добавлять события.",
-    "nl": "Agendabestemmingen tonen en afspraken toevoegen.",
-    "ro": "Afișează calendarele de destinație și adaugă evenimente."
+    "nl": "Agendabestemmingen tonen en afspraken toevoegen."
   },
   "Accessibility": {
     "en": "Accessibility",
@@ -569,8 +531,7 @@ enum Translations {
     "de": "Bedienungshilfen",
     "it": "Accessibilità",
     "ru": "Универсальный доступ",
-    "nl": "Toegankelijkheid",
-    "ro": "Accesibilitate"
+    "nl": "Toegankelijkheid"
   },
   "Read selected text in the source application.": {
     "en": "Read selected text in the source application.",
@@ -583,8 +544,7 @@ enum Translations {
     "de": "Ausgewählten Text in der Quellanwendung lesen.",
     "it": "Leggi il testo selezionato nell'app di origine.",
     "ru": "Читать выделенный текст в исходном приложении.",
-    "nl": "Geselecteerde tekst in de bronapp lezen.",
-    "ro": "Citește textul selectat în aplicația sursă."
+    "nl": "Geselecteerde tekst in de bronapp lezen."
   },
   "No external services. If selected text is not directly accessible, MyEvent uses Copy and restores the clipboard.": {
     "en": "No external services. If selected text is not directly accessible, MyEvent uses Copy and restores the clipboard.",
@@ -597,8 +557,7 @@ enum Translations {
     "de": "Keine externen Dienste. Ist der ausgewählte Text nicht direkt zugänglich, verwendet MyEvent Kopieren und stellt die Zwischenablage wieder her.",
     "it": "Nessun servizio esterno. Se il testo selezionato non è accessibile direttamente, MyEvent usa Copia e ripristina gli appunti.",
     "ru": "Без внешних сервисов. Если выделенный текст нельзя прочитать напрямую, MyEvent копирует его и восстанавливает буфер обмена.",
-    "nl": "Geen externe diensten. Als geselecteerde tekst niet direct toegankelijk is, gebruikt MyEvent Kopieer en herstelt het klembord.",
-    "ro": "Fără servicii externe. Dacă textul selectat nu este accesibil direct, MyEvent folosește Copiere și restabilește clipboardul."
+    "nl": "Geen externe diensten. Als geselecteerde tekst niet direct toegankelijk is, gebruikt MyEvent Kopieer en herstelt het klembord."
   },
   "Allowed": {
     "en": "Allowed",
@@ -611,8 +570,7 @@ enum Translations {
     "de": "Erlaubt",
     "it": "Consentito",
     "ru": "Разрешено",
-    "nl": "Toegestaan",
-    "ro": "Permis"
+    "nl": "Toegestaan"
   },
   "Not allowed": {
     "en": "Not allowed",
@@ -625,8 +583,7 @@ enum Translations {
     "de": "Nicht erlaubt",
     "it": "Non consentito",
     "ru": "Не разрешено",
-    "nl": "Niet toegestaan",
-    "ro": "Nepermis"
+    "nl": "Niet toegestaan"
   },
   "Allow…": {
     "en": "Allow…",
@@ -639,8 +596,7 @@ enum Translations {
     "de": "Erlauben…",
     "it": "Consenti…",
     "ru": "Разрешить…",
-    "nl": "Toestaan…",
-    "ro": "Permiteți…"
+    "nl": "Toestaan…"
   },
   "Created": {
     "en": "Created",
@@ -653,8 +609,7 @@ enum Translations {
     "de": "Erstellt",
     "it": "Creato",
     "ru": "Создано",
-    "nl": "Gemaakt",
-    "ro": "Creat"
+    "nl": "Gemaakt"
   },
   "calendar(s)": {
     "en": "calendar(s)",
@@ -667,8 +622,7 @@ enum Translations {
     "de": "Kalender",
     "it": "calendari",
     "ru": "календарей",
-    "nl": "agenda('s)",
-    "ro": "calendar(e)"
+    "nl": "agenda('s)"
   },
   "New event": {
     "en": "New event",
@@ -681,8 +635,7 @@ enum Translations {
     "de": "Neuer Termin",
     "it": "Nuovo evento",
     "ru": "Новое событие",
-    "nl": "Nieuwe afspraak",
-    "ro": "Eveniment nou"
+    "nl": "Nieuwe afspraak"
   },
   "This shortcut is already in use. Choose another combination in General.": {
     "en": "This shortcut is already in use. Choose another combination in General.",
@@ -695,8 +648,7 @@ enum Translations {
     "de": "Dieses Tastenkürzel wird bereits verwendet. Wählen Sie unter Allgemein eine andere Kombination.",
     "it": "Questa scorciatoia è già in uso. Scegli un'altra combinazione in Generali.",
     "ru": "Это сочетание клавиш уже используется. Выберите другое в разделе «Основные».",
-    "nl": "Deze sneltoets is al in gebruik. Kies een andere combinatie in Algemeen.",
-    "ro": "Această scurtătură este deja utilizată. Alegeți altă combinație în General."
+    "nl": "Deze sneltoets is al in gebruik. Kies een andere combinatie in Algemeen."
   },
   "Calendar access denied. Allow full calendar access in System Settings.": {
     "en": "Calendar access denied. Allow full calendar access in System Settings.",
@@ -709,8 +661,7 @@ enum Translations {
     "de": "Kalenderzugriff verweigert. Erlauben Sie vollen Zugriff in den Systemeinstellungen.",
     "it": "Accesso ai calendari negato. Consenti l'accesso completo nelle Impostazioni di Sistema.",
     "ru": "Доступ к календарям запрещён. Разрешите полный доступ в Системных настройках.",
-    "nl": "Toegang tot agenda's geweigerd. Sta volledige toegang toe in Systeeminstellingen.",
-    "ro": "Accesul la calendare a fost refuzat. Permiteți accesul complet în Configurări sistem."
+    "nl": "Toegang tot agenda's geweigerd. Sta volledige toegang toe in Systeeminstellingen."
   },
   "Allow calendar access and select at least one available destination in Accounts.": {
     "en": "Allow calendar access and select at least one available destination in Accounts.",
@@ -723,8 +674,7 @@ enum Translations {
     "de": "Erlauben Sie Kalenderzugriff und wählen Sie unter Konten mindestens ein verfügbares Ziel.",
     "it": "Consenti l'accesso ai calendari e seleziona almeno una destinazione disponibile in Account.",
     "ru": "Разрешите доступ к календарям и выберите хотя бы один доступный календарь в разделе «Учётные записи».",
-    "nl": "Sta toegang tot agenda's toe en selecteer minstens één beschikbare bestemming in Accounts.",
-    "ro": "Permiteți accesul la calendare și selectați cel puțin o destinație disponibilă în Conturi."
+    "nl": "Sta toegang tot agenda's toe en selecteer minstens één beschikbare bestemming in Accounts."
   },
   "The selected text could not be turned into a valid event.": {
     "en": "The selected text could not be turned into a valid event.",
@@ -737,8 +687,7 @@ enum Translations {
     "de": "Aus dem ausgewählten Text konnte kein gültiger Termin erstellt werden.",
     "it": "Impossibile creare un evento valido dal testo selezionato.",
     "ru": "Не удалось создать корректное событие из выделенного текста.",
-    "nl": "De geselecteerde tekst kon niet worden omgezet in een geldige afspraak.",
-    "ro": "Textul selectat nu a putut fi transformat într-un eveniment valid."
+    "nl": "De geselecteerde tekst kon niet worden omgezet in een geldige afspraak."
   },
   "Use ⌘, ⌥ or ⌃ with a key (⇧ alone is not enough).": {
     "en": "Use ⌘, ⌥ or ⌃ with a key (⇧ alone is not enough).",
@@ -751,8 +700,7 @@ enum Translations {
     "de": "Verwenden Sie ⌘, ⌥ oder ⌃ mit einer Taste (⇧ allein reicht nicht).",
     "it": "Usa ⌘, ⌥ o ⌃ con un tasto (⇧ da solo non basta).",
     "ru": "Используйте ⌘, ⌥ или ⌃ с клавишей (одной ⇧ недостаточно).",
-    "nl": "Gebruik ⌘, ⌥ of ⌃ met een toets (alleen ⇧ is niet voldoende).",
-    "ro": "Folosiți ⌘, ⌥ sau ⌃ împreună cu o tastă (doar ⇧ nu este suficient)."
+    "nl": "Gebruik ⌘, ⌥ of ⌃ met een toets (alleen ⇧ is niet voldoende)."
   },
   "This combination is already in use. Try another, or press Escape to cancel.": {
     "en": "This combination is already in use. Try another, or press Escape to cancel.",
@@ -765,8 +713,7 @@ enum Translations {
     "de": "Diese Kombination wird bereits verwendet. Versuchen Sie eine andere oder drücken Sie Escape zum Abbrechen.",
     "it": "Questa combinazione è già in uso. Provane un'altra o premi Esc per annullare.",
     "ru": "Это сочетание уже используется. Попробуйте другое или нажмите Escape для отмены.",
-    "nl": "Deze combinatie is al in gebruik. Probeer een andere of druk op Escape om te annuleren.",
-    "ro": "Această combinație este deja utilizată. Încercați alta sau apăsați Escape pentru a anula."
+    "nl": "Deze combinatie is al in gebruik. Probeer een andere of druk op Escape om te annuleren."
   },
   "Shortcut unavailable. Choose another combination.": {
     "en": "Shortcut unavailable. Choose another combination.",
@@ -779,8 +726,7 @@ enum Translations {
     "de": "Tastenkürzel nicht verfügbar. Wählen Sie eine andere Kombination.",
     "it": "Scorciatoia non disponibile. Scegli un'altra combinazione.",
     "ru": "Сочетание клавиш недоступно. Выберите другое.",
-    "nl": "Sneltoets niet beschikbaar. Kies een andere combinatie.",
-    "ro": "Scurtătura nu este disponibilă. Alegeți altă combinație."
+    "nl": "Sneltoets niet beschikbaar. Kies een andere combinatie."
   },
   "Allow MyEvent in System Settings > Privacy & Security > Accessibility, then try the shortcut again.": {
     "en": "Allow MyEvent in System Settings > Privacy & Security > Accessibility, then try the shortcut again.",
@@ -793,8 +739,7 @@ enum Translations {
     "de": "Erlauben Sie MyEvent unter Systemeinstellungen > Datenschutz & Sicherheit > Bedienungshilfen und versuchen Sie es erneut.",
     "it": "Autorizza MyEvent in Impostazioni di Sistema > Privacy e sicurezza > Accessibilità, poi riprova.",
     "ru": "Разрешите MyEvent в Системных настройках > Конфиденциальность и безопасность > Универсальный доступ, затем повторите сочетание клавиш.",
-    "nl": "Sta MyEvent toe in Systeeminstellingen > Privacy en beveiliging > Toegankelijkheid en probeer de sneltoets opnieuw.",
-    "ro": "Permiteți MyEvent în Configurări sistem > Intimitate și securitate > Accesibilitate, apoi încercați din nou scurtătura."
+    "nl": "Sta MyEvent toe in Systeeminstellingen > Privacy en beveiliging > Toegankelijkheid en probeer de sneltoets opnieuw."
   },
   "No selected text is accessible. Select text in the source app, release the shortcut keys and try again.": {
     "en": "No selected text is accessible. Select text in the source app, release the shortcut keys and try again.",
@@ -807,8 +752,7 @@ enum Translations {
     "de": "Kein ausgewählter Text zugänglich. Wählen Sie Text in der Quell-App, lassen Sie die Tasten los und versuchen Sie es erneut.",
     "it": "Il testo selezionato non è accessibile. Seleziona il testo nell'app di origine, rilascia i tasti e riprova.",
     "ru": "Выделенный текст недоступен. Выделите текст в исходном приложении, отпустите клавиши сочетания и повторите попытку.",
-    "nl": "Geen geselecteerde tekst toegankelijk. Selecteer tekst in de bronapp, laat de sneltoets los en probeer opnieuw.",
-    "ro": "Textul selectat nu este accesibil. Selectați textul în aplicația sursă, eliberați tastele scurtăturii și încercați din nou."
+    "nl": "Geen geselecteerde tekst toegankelijk. Selecteer tekst in de bronapp, laat de sneltoets los en probeer opnieuw."
   },
   "Quit": {
     "en": "Quit",
@@ -821,8 +765,7 @@ enum Translations {
     "de": "Beenden",
     "it": "Esci",
     "ru": "Выйти",
-    "nl": "Stoppen",
-    "ro": "Ieșire"
+    "nl": "Stoppen"
   },
   "Hide": {
     "en": "Hide",
@@ -835,8 +778,7 @@ enum Translations {
     "de": "Ausblenden",
     "it": "Nascondi",
     "ru": "Скрыть",
-    "nl": "Verberg",
-    "ro": "Ascunde"
+    "nl": "Verberg"
   },
   "Hide MyEvent": {
     "en": "Hide MyEvent",
@@ -849,8 +791,7 @@ enum Translations {
     "de": "MyEvent ausblenden",
     "it": "Nascondi MyEvent",
     "ru": "Скрыть MyEvent",
-    "nl": "Verberg MyEvent",
-    "ro": "Ascunde MyEvent"
+    "nl": "Verberg MyEvent"
   },
   "Show All": {
     "en": "Show All",
@@ -863,8 +804,7 @@ enum Translations {
     "de": "Alle einblenden",
     "it": "Mostra tutto",
     "ru": "Показать все",
-    "nl": "Toon alles",
-    "ro": "Afișează tot"
+    "nl": "Toon alles"
   },
   "Quit MyEvent": {
     "en": "Quit MyEvent",
@@ -877,8 +817,7 @@ enum Translations {
     "de": "MyEvent beenden",
     "it": "Esci da MyEvent",
     "ru": "Выйти из MyEvent",
-    "nl": "Stop MyEvent",
-    "ro": "Închide MyEvent"
+    "nl": "Stop MyEvent"
   },
   "Window": {
     "en": "Window",
@@ -891,8 +830,7 @@ enum Translations {
     "de": "Fenster",
     "it": "Finestra",
     "ru": "Окно",
-    "nl": "Venster",
-    "ro": "Fereastră"
+    "nl": "Venster"
   },
   "Minimize": {
     "en": "Minimize",
@@ -905,8 +843,7 @@ enum Translations {
     "de": "Minimieren",
     "it": "Contrai",
     "ru": "Свернуть",
-    "nl": "Minimaliseer",
-    "ro": "Minimizează"
+    "nl": "Minimaliseer"
   },
   "Close": {
     "en": "Close",
@@ -919,8 +856,7 @@ enum Translations {
     "de": "Schließen",
     "it": "Chiudi",
     "ru": "Закрыть",
-    "nl": "Sluiten",
-    "ro": "Închide"
+    "nl": "Sluiten"
   },
   "Bring All to Front": {
     "en": "Bring All to Front",
@@ -933,8 +869,7 @@ enum Translations {
     "de": "Alle nach vorne bringen",
     "it": "Porta tutto in primo piano",
     "ru": "Все окна на передний план",
-    "nl": "Alles naar voren",
-    "ro": "Adu toate ferestrele în față"
+    "nl": "Alles naar voren"
   },
   "Help": {
     "en": "Help",
@@ -947,8 +882,7 @@ enum Translations {
     "de": "Hilfe",
     "it": "Aiuto",
     "ru": "Справка",
-    "nl": "Help",
-    "ro": "Ajutor"
+    "nl": "Help"
   },
   "MyEvent lists your calendars so you can choose destinations and immediately add events using your shortcut.": {
     "en": "MyEvent lists your calendars so you can choose destinations and immediately add events using your shortcut.",
@@ -961,8 +895,7 @@ enum Translations {
     "de": "MyEvent zeigt Ihre Kalender an, damit Sie Ziele auswählen und mit dem Tastenkürzel sofort Termine hinzufügen können.",
     "it": "MyEvent elenca i calendari per scegliere le destinazioni e aggiungere subito eventi con la scorciatoia.",
     "ru": "MyEvent показывает ваши календари, чтобы вы могли выбрать нужные и сразу добавлять события сочетанием клавиш.",
-    "nl": "MyEvent toont uw agenda's zodat u bestemmingen kunt kiezen en direct afspraken kunt toevoegen met uw sneltoets.",
-    "ro": "MyEvent afișează calendarele pentru a putea alege destinațiile și adăuga imediat evenimente folosind scurtătura."
+    "nl": "MyEvent toont uw agenda's zodat u bestemmingen kunt kiezen en direct afspraken kunt toevoegen met uw sneltoets."
   },
   "MyEvent adds events to the calendars you select when you use the shortcut.": {
     "en": "MyEvent adds events to the calendars you select when you use the shortcut.",
@@ -975,8 +908,7 @@ enum Translations {
     "de": "MyEvent fügt Termine zu den ausgewählten Kalendern hinzu, wenn Sie das Tastenkürzel verwenden.",
     "it": "MyEvent aggiunge eventi ai calendari selezionati quando usi la scorciatoia.",
     "ru": "MyEvent добавляет события в выбранные календари при использовании сочетания клавиш.",
-    "nl": "MyEvent voegt afspraken toe aan de geselecteerde agenda's wanneer u de sneltoets gebruikt.",
-    "ro": "MyEvent adaugă evenimente în calendarele selectate atunci când folosiți scurtătura."
+    "nl": "MyEvent voegt afspraken toe aan de geselecteerde agenda's wanneer u de sneltoets gebruikt."
   },
   "Build": {
     "en": "Build",
@@ -989,8 +921,7 @@ enum Translations {
     "de": "Build",
     "it": "Build",
     "ru": "Сборка",
-    "nl": "Build",
-    "ro": "Compilare"
+    "nl": "Build"
   },
   "Details": {
     "en": "Details",
@@ -1003,8 +934,7 @@ enum Translations {
     "de": "Details",
     "it": "Dettagli",
     "ru": "Подробности",
-    "nl": "Details",
-    "ro": "Detalii"
+    "nl": "Details"
   },
   "Participants": {
     "en": "Participants",
@@ -1017,8 +947,7 @@ enum Translations {
     "de": "Teilnehmer",
     "it": "Partecipanti",
     "ru": "Участники",
-    "nl": "Deelnemers",
-    "ro": "Participanți"
+    "nl": "Deelnemers"
   },
   "Links": {
     "en": "Links",
@@ -1031,8 +960,7 @@ enum Translations {
     "de": "Links",
     "it": "Collegamenti",
     "ru": "Ссылки",
-    "nl": "Links",
-    "ro": "Linkuri"
+    "nl": "Links"
   },
   "Location": {
     "en": "Location",
@@ -1045,8 +973,7 @@ enum Translations {
     "de": "Ort",
     "it": "Luogo",
     "ru": "Место",
-    "nl": "Locatie",
-    "ro": "Locație"
+    "nl": "Locatie"
   },
   "Start": {
     "en": "Start",
@@ -1059,8 +986,7 @@ enum Translations {
     "de": "Beginn",
     "it": "Inizio",
     "ru": "Начало",
-    "nl": "Begin",
-    "ro": "Început"
+    "nl": "Begin"
   },
   "End": {
     "en": "End",
@@ -1073,8 +999,7 @@ enum Translations {
     "de": "Ende",
     "it": "Fine",
     "ru": "Окончание",
-    "nl": "Einde",
-    "ro": "Sfârșit"
+    "nl": "Einde"
   },
   "The chosen language is used for the event title and detailed notes.": {
     "en": "The chosen language is used for the event title and detailed notes.",
@@ -1087,8 +1012,7 @@ enum Translations {
     "de": "Die gewählte Sprache gilt für Titel und ausführliche Notizen des Termins.",
     "it": "La lingua scelta viene usata per il titolo e le note dettagliate dell'evento.",
     "ru": "Выбранный язык используется для названия события и подробных заметок.",
-    "nl": "De gekozen taal wordt gebruikt voor de titel en uitgebreide notities van de afspraak.",
-    "ro": "Limba aleasă este folosită pentru titlul evenimentului și notele detaliate."
+    "nl": "De gekozen taal wordt gebruikt voor de titel en uitgebreide notities van de afspraak."
   },
   "Translation is unavailable for this language pair on this Mac. No event was created.": {
     "en": "Translation is unavailable for this language pair on this Mac. No event was created.",
@@ -1101,8 +1025,7 @@ enum Translations {
     "de": "Dieses Sprachpaar wird auf diesem Mac nicht unterstützt. Es wurde kein Termin erstellt.",
     "it": "Questa traduzione non è disponibile su questo Mac. Nessun evento è stato creato.",
     "ru": "Перевод между этими языками недоступен на этом Mac. Событие не создано.",
-    "nl": "Vertaling voor dit talenpaar is niet beschikbaar op deze Mac. Er is geen afspraak gemaakt.",
-    "ro": "Traducerea pentru această pereche de limbi nu este disponibilă pe acest Mac. Nu a fost creat niciun eveniment."
+    "nl": "Vertaling voor dit talenpaar is niet beschikbaar op deze Mac. Er is geen afspraak gemaakt."
   },
   "Automatic translation requires macOS 26 or later. No event was created.": {
     "en": "Automatic translation requires macOS 26 or later. No event was created.",
@@ -1115,8 +1038,7 @@ enum Translations {
     "de": "Automatische Übersetzung erfordert macOS 26 oder neuer. Es wurde kein Termin erstellt.",
     "it": "La traduzione automatica richiede macOS 26 o successivo. Nessun evento è stato creato.",
     "ru": "Для автоматического перевода требуется macOS 26 или новее. Событие не создано.",
-    "nl": "Automatische vertaling vereist macOS 26 of nieuwer. Er is geen afspraak gemaakt.",
-    "ro": "Traducerea automată necesită macOS 26 sau o versiune ulterioară. Nu a fost creat niciun eveniment."
+    "nl": "Automatische vertaling vereist macOS 26 of nieuwer. Er is geen afspraak gemaakt."
   },
   "The source language could not be identified. Select a longer text and try again.": {
     "en": "The source language could not be identified. Select a longer text and try again.",
@@ -1129,8 +1051,7 @@ enum Translations {
     "de": "Die Ausgangssprache wurde nicht erkannt. Wählen Sie einen längeren Text und versuchen Sie es erneut.",
     "it": "Impossibile identificare la lingua. Seleziona un testo più lungo e riprova.",
     "ru": "Не удалось определить исходный язык. Выделите более длинный текст и повторите попытку.",
-    "nl": "De brontaal kon niet worden herkend. Selecteer een langere tekst en probeer opnieuw.",
-    "ro": "Limba sursă nu a putut fi identificată. Selectați un text mai lung și încercați din nou."
+    "nl": "De brontaal kon niet worden herkend. Selecteer een langere tekst en probeer opnieuw."
   },
   "Translating event text…": {
     "en": "Translating event text…",
@@ -1143,8 +1064,7 @@ enum Translations {
     "de": "Termintext wird übersetzt…",
     "it": "Traduzione del testo dell'evento…",
     "ru": "Перевод текста события…",
-    "nl": "Afspraaktekst vertalen…",
-    "ro": "Se traduce textul evenimentului…"
+    "nl": "Afspraaktekst vertalen…"
   },
   "Translation failed. No event was created.": {
     "en": "Translation failed. No event was created.",
@@ -1157,8 +1077,7 @@ enum Translations {
     "de": "Übersetzung fehlgeschlagen. Es wurde kein Termin erstellt.",
     "it": "Traduzione non riuscita. Nessun evento è stato creato.",
     "ru": "Не удалось выполнить перевод. Событие не создано.",
-    "nl": "Vertaling mislukt. Er is geen afspraak gemaakt.",
-    "ro": "Traducerea a eșuat. Nu a fost creat niciun eveniment."
+    "nl": "Vertaling mislukt. Er is geen afspraak gemaakt."
   },
   "Install translation languages in System Settings > General > Language & Region > Translation Languages, then try again. No event was created.": {
     "en": "Install translation languages in System Settings > General > Language & Region > Translation Languages, then try again. No event was created.",
@@ -1171,8 +1090,7 @@ enum Translations {
     "de": "Installieren Sie die Sprachen unter Systemeinstellungen > Allgemein > Sprache & Region > Übersetzungssprachen und versuchen Sie es erneut. Es wurde kein Termin erstellt.",
     "it": "Installa le lingue in Impostazioni di Sistema > Generali > Lingua e zona > Lingue di traduzione e riprova. Nessun evento è stato creato.",
     "ru": "Установите языки перевода в Системных настройках > Основные > Язык и регион > Языки перевода и повторите попытку. Событие не создано.",
-    "nl": "Installeer de vertaaltalen in Systeeminstellingen > Algemeen > Taal en regio > Vertaaltalen en probeer opnieuw. Er is geen afspraak gemaakt.",
-    "ro": "Instalați limbile de traducere în Configurări sistem > General > Limbă și regiune > Limbi de traducere, apoi încercați din nou. Nu a fost creat niciun eveniment."
+    "nl": "Installeer de vertaaltalen in Systeeminstellingen > Algemeen > Taal en regio > Vertaaltalen en probeer opnieuw. Er is geen afspraak gemaakt."
   },
   "If MyEvent is already enabled in macOS, remove the old entry, add this app again, then quit and reopen MyEvent.": {
     "en": "If MyEvent is already enabled in macOS, remove the old entry, add this app again, then quit and reopen MyEvent.",
@@ -1185,8 +1103,7 @@ enum Translations {
     "de": "Wenn MyEvent in macOS bereits aktiviert ist, entfernen Sie den alten Eintrag, fügen Sie diese App erneut hinzu und starten Sie MyEvent neu.",
     "it": "Se MyEvent è già abilitato in macOS, rimuovi la vecchia voce, aggiungi di nuovo questa app, poi chiudi e riapri MyEvent.",
     "ru": "Если MyEvent уже включён в macOS, удалите старую запись, добавьте приложение заново, затем выйдите из MyEvent и откройте его снова.",
-    "nl": "Als MyEvent al is ingeschakeld in macOS, verwijder dan de oude vermelding, voeg deze app opnieuw toe en stop en heropen MyEvent.",
-    "ro": "Dacă MyEvent este deja activat în macOS, eliminați intrarea veche, adăugați din nou aplicația, apoi închideți și redeschideți MyEvent."
+    "nl": "Als MyEvent al is ingeschakeld in macOS, verwijder dan de oude vermelding, voeg deze app opnieuw toe en stop en heropen MyEvent."
   },
   "The red button quits MyEvent and disables the shortcut. The yellow button minimizes the window and keeps MyEvent running.": {
     "en": "The red button quits MyEvent and disables the shortcut. The yellow button minimizes the window and keeps MyEvent running.",
@@ -1199,8 +1116,7 @@ enum Translations {
     "de": "Die rote Taste beendet MyEvent und deaktiviert das Tastenkürzel. Die gelbe Taste minimiert das Fenster und lässt MyEvent aktiv.",
     "it": "Il pulsante rosso chiude MyEvent e disattiva la scorciatoia. Quello giallo riduce la finestra e mantiene MyEvent attivo.",
     "ru": "Красная кнопка завершает MyEvent и отключает сочетание клавиш. Жёлтая кнопка сворачивает окно, оставляя MyEvent работающим.",
-    "nl": "De rode knop stopt MyEvent en schakelt de sneltoets uit. De gele knop minimaliseert het venster en houdt MyEvent actief.",
-    "ro": "Butonul roșu închide MyEvent și dezactivează scurtătura. Butonul galben minimizează fereastra și menține MyEvent activ."
+    "nl": "De rode knop stopt MyEvent en schakelt de sneltoets uit. De gele knop minimaliseert het venster en houdt MyEvent actief."
   },
   "Event created": {
     "en": "Event created",
@@ -1213,8 +1129,7 @@ enum Translations {
     "de": "Termin erstellt",
     "it": "Evento creato",
     "ru": "Событие создано",
-    "nl": "Afspraak gemaakt",
-    "ro": "Eveniment creat"
+    "nl": "Afspraak gemaakt"
   },
   "Event creation failed": {
     "en": "Event creation failed",
@@ -1227,8 +1142,7 @@ enum Translations {
     "de": "Termin konnte nicht erstellt werden",
     "it": "Creazione dell'evento non riuscita",
     "ru": "Не удалось создать событие",
-    "nl": "Afspraak maken mislukt",
-    "ro": "Crearea evenimentului a eșuat"
+    "nl": "Afspraak maken mislukt"
   },
   "Review event": {
     "en": "Review event",
@@ -1241,8 +1155,7 @@ enum Translations {
     "de": "Termin prüfen",
     "it": "Rivedi evento",
     "ru": "Проверка события",
-    "nl": "Afspraak controleren",
-    "ro": "Verificați evenimentul"
+    "nl": "Afspraak controleren"
   },
   "Title": {
     "en": "Title",
@@ -1255,8 +1168,7 @@ enum Translations {
     "de": "Titel",
     "it": "Titolo",
     "ru": "Название",
-    "nl": "Titel",
-    "ro": "Titlu"
+    "nl": "Titel"
   },
   "Notes": {
     "en": "Notes",
@@ -1269,8 +1181,7 @@ enum Translations {
     "de": "Notizen",
     "it": "Note",
     "ru": "Заметки",
-    "nl": "Notities",
-    "ro": "Note"
+    "nl": "Notities"
   },
   "Link": {
     "en": "Link",
@@ -1283,8 +1194,7 @@ enum Translations {
     "de": "Link",
     "it": "Link",
     "ru": "Ссылка",
-    "nl": "Link",
-    "ro": "Link"
+    "nl": "Link"
   },
   "Create event": {
     "en": "Create event",
@@ -1297,8 +1207,7 @@ enum Translations {
     "de": "Termin erstellen",
     "it": "Crea evento",
     "ru": "Создать событие",
-    "nl": "Afspraak maken",
-    "ro": "Creează evenimentul"
+    "nl": "Afspraak maken"
   },
   "Enter an event title.": {
     "en": "Enter an event title.",
@@ -1311,8 +1220,7 @@ enum Translations {
     "de": "Geben Sie einen Titel ein.",
     "it": "Inserisci un titolo per l'evento.",
     "ru": "Введите название события.",
-    "nl": "Voer een titel voor de afspraak in.",
-    "ro": "Introduceți un titlu pentru eveniment."
+    "nl": "Voer een titel voor de afspraak in."
   },
   "The end must be after the start.": {
     "en": "The end must be after the start.",
@@ -1325,8 +1233,7 @@ enum Translations {
     "de": "Das Ende muss nach dem Beginn liegen.",
     "it": "La fine deve essere successiva all'inizio.",
     "ru": "Окончание должно быть позже начала.",
-    "nl": "Het einde moet na het begin liggen.",
-    "ro": "Sfârșitul trebuie să fie după început."
+    "nl": "Het einde moet na het begin liggen."
   },
   "Enter a valid http or https link.": {
     "en": "Enter a valid http or https link.",
@@ -1339,8 +1246,7 @@ enum Translations {
     "de": "Geben Sie einen gültigen http- oder https-Link ein.",
     "it": "Inserisci un link http o https valido.",
     "ru": "Введите корректную ссылку http или https.",
-    "nl": "Voer een geldige http- of https-link in.",
-    "ro": "Introduceți un link http sau https valid."
+    "nl": "Voer een geldige http- of https-link in."
   },
   "Review the details, then confirm to create the event.": {
     "en": "Review the details, then confirm to create the event.",
@@ -1353,8 +1259,7 @@ enum Translations {
     "de": "Prüfen Sie die Details und bestätigen Sie die Erstellung des Termins.",
     "it": "Verifica i dettagli, poi conferma per creare l'evento.",
     "ru": "Проверьте сведения и подтвердите создание события.",
-    "nl": "Controleer de gegevens en bevestig om de afspraak te maken.",
-    "ro": "Verificați detaliile, apoi confirmați pentru a crea evenimentul."
+    "nl": "Controleer de gegevens en bevestig om de afspraak te maken."
   },
   "Select text and press the shortcut. Review the details before creating the event.": {
     "en": "Select text and press the shortcut. Review the details before creating the event.",
@@ -1367,8 +1272,7 @@ enum Translations {
     "de": "Markieren Sie Text und drücken Sie das Tastenkürzel. Prüfen Sie die Details vor der Erstellung.",
     "it": "Seleziona il testo e premi la scorciatoia. Verifica i dettagli prima di creare l'evento.",
     "ru": "Выделите текст и нажмите сочетание клавиш. Проверьте сведения перед созданием события.",
-    "nl": "Selecteer tekst en druk op de sneltoets. Controleer de gegevens voordat u de afspraak maakt.",
-    "ro": "Selectați textul și apăsați scurtătura. Verificați detaliile înainte de a crea evenimentul."
+    "nl": "Selecteer tekst en druk op de sneltoets. Controleer de gegevens voordat u de afspraak maakt."
   },
   "Preparing event…": {
     "en": "Preparing event…",
@@ -1381,8 +1285,7 @@ enum Translations {
     "de": "Termin wird vorbereitet…",
     "it": "Preparazione dell'evento…",
     "ru": "Подготовка события…",
-    "nl": "Afspraak voorbereiden…",
-    "ro": "Se pregătește evenimentul…"
+    "nl": "Afspraak voorbereiden…"
   }
 }
 """#

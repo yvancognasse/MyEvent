@@ -85,9 +85,9 @@ enum EventContentBuilder {
         var draft = EventParser.parse(source, now: now, calendar: calendar, defaultDuration: defaultDuration, defaultHour: defaultHour)
         let lines = translated.components(separatedBy: .newlines).map { $0.trimmingCharacters(in: .whitespacesAndNewlines) }.filter { !$0.isEmpty }
         let title = lines.first ?? Translations.text("New event", language: language)
-        let prefix = #"(?i)^(?:subject|title|objet|titre|betreff|titel|oggetto|titolo|asunto|título|assunto|onderwerp|subiect|titlu|тема|заголовок|название|主题|标题|विषय|عنوان)\s*[:：]\s*"#
+        let prefix = #"(?i)^(?:subject|title|objet|titre|betreff|titel|oggetto|titolo|asunto|título|assunto|onderwerp|тема|заголовок|название|主题|标题|विषय|عنوان)\s*[:：]\s*"#
         draft.title = String(title.replacingOccurrences(of: prefix, with: "", options: .regularExpression).prefix(160))
-        let locationPattern = #"(?im)^\s*(?:location|venue|place|lieu|adresse|ort|adresse|luogo|sede|lugar|ubicación|local|endereço|locatie|locație|loc|plaats|adres|adresa|adresă|место|местоположение|адрес|地点|地址|स्थान|المكان|الموقع)\s*[:：]\s*(.+)$"#
+        let locationPattern = #"(?im)^\s*(?:location|venue|place|lieu|adresse|ort|adresse|luogo|sede|lugar|ubicación|local|endereço|locatie|plaats|adres|место|местоположение|адрес|地点|地址|स्थान|المكان|الموقع)\s*[:：]\s*(.+)$"#
         if let regex = try? NSRegularExpression(pattern: locationPattern),
            let match = regex.firstMatch(in: translated, range: NSRange(translated.startIndex..., in: translated)),
            let range = Range(match.range(at: 1), in: translated) {
