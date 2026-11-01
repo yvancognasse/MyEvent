@@ -27,9 +27,33 @@ enum EventTextTranslator {
         guard #available(macOS 26.0, *) else { throw Failure.requiresNewerSystem }
         let status = await LanguageAvailability().status(from: source, to: destination)
         guard status != .unsupported else { throw Failure.unsupported }
-        // Supported but uninstalled languages, and consent checks even for installed
-        // models, require a session attached to a visible SwiftUI view.
-        return try await TranslationWindow.translate(text, source: source, target: destination)
+        return try await translateWithFallback(direct: {
+            // Installed models normally translate without a window. A view-backed
+            // session is still needed if macOS requests consent or a download.
+            guard status == .installed else { throw Failure.notInstalled }
+            do {
+                let session = TranslationSession(installedSource: source, target: destination)
+                let response = try await session.translate(text)
+                return try validatedText(response.targetText, language: response.targetLanguage, target: destination)
+            } catch {
+                throw mappedError(error)
+            }
+        }, interactive: {
+            try await TranslationWindow.translate(text, source: source, target: destination)
+        })
+    }
+
+    static func translateWithFallback(direct: () async throws -> String,
+                                      interactive: () async throws -> String) async throws -> String {
+        do {
+            try Task.checkCancellation()
+            return try await direct()
+        } catch is CancellationError {
+            throw CancellationError()
+        } catch {
+            try Task.checkCancellation()
+            return try await interactive()
+        }
     }
 
     static func validatedText(_ text: String, language: Locale.Language, target: Locale.Language) throws -> String {

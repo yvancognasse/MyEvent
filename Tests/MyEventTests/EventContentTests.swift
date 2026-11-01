@@ -32,6 +32,44 @@ final class EventContentTests: XCTestCase {
         let translated = try await EventTextTranslator.translate(text, to: .english)
         XCTAssertEqual(translated, text)
     }
+    func testSuccessfulDirectTranslationDoesNotOpenIntermediateWindow() async throws {
+        let result = try await EventTextTranslator.translateWithFallback(direct: { "Meeting" }, interactive: {
+            XCTFail("A successful background translation must not open a window")
+            return "Unexpected"
+        })
+        XCTAssertEqual(result, "Meeting")
+    }
+
+    func testConsentFailureUsesInteractiveTranslation() async throws {
+        let result = try await EventTextTranslator.translateWithFallback(direct: {
+            throw NSError(domain: "TranslationFixture", code: 16)
+        }, interactive: { "Translated after consent" })
+        XCTAssertEqual(result, "Translated after consent")
+    }
+
+    func testCancelledDirectTranslationNeverOpensWindow() async {
+        do {
+            _ = try await EventTextTranslator.translateWithFallback(direct: {
+                throw CancellationError()
+            }, interactive: {
+                XCTFail("Cancellation must not open a window")
+                return "Unexpected"
+            })
+            XCTFail("Expected cancellation")
+        } catch { XCTAssertTrue(error is CancellationError) }
+    }
+
+    func testInteractiveFailureDoesNotSaveUntranslatedFallback() async {
+        do {
+            _ = try await EventTextTranslator.translateWithFallback(direct: {
+                throw EventTextTranslator.Failure.notInstalled
+            }, interactive: { throw EventTextTranslator.Failure.failed })
+            XCTFail("Translation failure must propagate")
+        } catch {
+            guard case EventTextTranslator.Failure.failed = error else { return XCTFail("Unexpected error") }
+        }
+    }
+
     func testInvalidTranslationNeverProducesFallbackContent() {
         let english = Locale.Language(identifier: "en")
         XCTAssertThrowsError(try EventTextTranslator.validatedText("  \n", language: english, target: english))
@@ -52,7 +90,7 @@ final class EventContentTests: XCTestCase {
     }
 
     @MainActor
-    func testLiveViewBackedTranslationWithFixtureOnly() async throws {
+    func testLiveTranslationWithFixtureOnly() async throws {
         guard ProcessInfo.processInfo.environment["MYEVENT_LIVE_TRANSLATION_TEST"] == "1" else {
             throw XCTSkip("Opt-in local translation test; never accesses calendars")
         }
