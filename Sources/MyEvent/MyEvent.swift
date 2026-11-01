@@ -335,26 +335,22 @@ struct MainView: View {
     }
     private var general: some View {
         VStack(alignment: .leading, spacing: 20) {
-            Grid(alignment: .leading, horizontalSpacing: 12, verticalSpacing: 15) {
-                GridRow {
-                    caption(tr("Language:"))
-                    Picker(tr("Language"), selection: $model.language) {
-                        ForEach(AppLanguage.allCases) { Text($0.displayName).tag($0) }
-                    }.labelsHidden().frame(width: 230)
+            HStack {
+                Text(tr("Language:")).font(.callout.weight(.medium))
+                Spacer()
+                Picker(tr("Language"), selection: $model.language) {
+                    ForEach(AppLanguage.allCases) { Text($0.displayName).tag($0) }
+                }.labelsHidden().frame(width: 230)
+            }
+            VStack(alignment: .leading, spacing: 6) {
+                HStack {
+                    Text(tr("Global shortcut:")).font(.callout.weight(.medium))
+                    Spacer()
+                    Button(model.recording ? tr("Press your shortcut…") : model.shortcut.label) { model.startRecording() }
+                    if model.recording { Button(tr("Cancel")) { model.stopRecording() } }
                 }
-                GridRow {
-                    caption(tr("Global shortcut:"))
-                    HStack {
-                        Button(model.recording ? tr("Press your shortcut…") : model.shortcut.label) { model.startRecording() }
-                            .frame(minWidth: 140)
-                        if model.recording { Button(tr("Cancel")) { model.stopRecording() } }
-                    }
-                }
-                GridRow {
-                    Color.clear.gridCellUnsizedAxes([.horizontal, .vertical])
-                    Text(tr("Select text and press the shortcut. Review the details before creating the event."))
-                        .font(.caption).foregroundStyle(.secondary).fixedSize(horizontal: false, vertical: true)
-                }
+                Text(tr("Select text and press the shortcut. Review the details before creating the event."))
+                    .font(.caption).foregroundStyle(.secondary).fixedSize(horizontal: false, vertical: true)
             }
             Text(tr("The chosen language is used for the event title and detailed notes.")).font(.caption).foregroundStyle(.secondary)
             Divider()
@@ -425,9 +421,6 @@ struct MainView: View {
             Text(tr("No external services. If selected text is not directly accessible, MyEvent uses Copy and restores the clipboard."))
                 .font(.caption).foregroundStyle(.secondary)
         }
-    }
-    private func caption(_ text: String) -> some View {
-        Text(text).font(.callout).frame(width: 198, alignment: .trailing)
     }
     private func permissionRow(_ title: String, detail: String, granted: Bool, action: @escaping () -> Void) -> some View {
         HStack {
