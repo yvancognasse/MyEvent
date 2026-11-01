@@ -197,7 +197,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
         }
         let settingsStyle: NSWindow.StyleMask = [.titled, .closable, .miniaturizable, .resizable]
         // Match the reference's outer size, including the native title bar.
-        let settingsFrame = NSRect(x: 0, y: 0, width: 512, height: 471)
+        let settingsFrame = NSRect(x: 0, y: 0, width: 502, height: 403)
         let settingsContent = NSWindow.contentRect(forFrameRect: settingsFrame, styleMask: settingsStyle)
         window = NSWindow(contentRect: settingsContent, styleMask: settingsStyle, backing: .buffered, defer: false)
         window.title = "MyEvent — \(tr("Settings"))"
