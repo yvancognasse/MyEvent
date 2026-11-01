@@ -80,7 +80,7 @@ final class AppModel: ObservableObject {
             }
             let calendarIDs = destinations.map(\.calendarIdentifier)
             let names = destinations.map { "\($0.source.title) / \($0.title)" }
-            let text = try await SelectionReader.read()
+            let text = try await SelectionReader.read(shortcut: shortcut)
             let selectedLanguage = language
             let capturedAt = Date()
             let contentLanguage = EventTextTranslator.detectedAppLanguage(in: text)

@@ -52,51 +52,75 @@ final class HotKey {
 
 @MainActor
 enum SelectionReader {
-    static func read() async throws -> String {
+    static func read(shortcut: Shortcut) async throws -> String {
         guard AXIsProcessTrusted() else { throw SelectionError.permission }
-        let system = AXUIElementCreateSystemWide()
-        var focused: CFTypeRef?
-        if AXUIElementCopyAttributeValue(system, kAXFocusedUIElementAttribute as CFString, &focused) == .success, let focused,
-           CFGetTypeID(focused) == AXUIElementGetTypeID() {
-            var selected: CFTypeRef?
+        guard let sourceApp = NSWorkspace.shared.frontmostApplication else { throw SelectionError.empty }
+        let pid = sourceApp.processIdentifier
+        let application = AXUIElementCreateApplication(pid)
+        AXUIElementSetMessagingTimeout(application, 0.25)
+        var originalWindow: AXUIElement?
+
+        func sourceIsCurrent() -> Bool {
+            NSWorkspace.shared.frontmostApplication?.processIdentifier == pid
+        }
+        func sameWindow() -> Bool {
+            guard sourceIsCurrent() else { return false }
+            var focused: CFTypeRef?
+            let status = AXUIElementCopyAttributeValue(application, kAXFocusedWindowAttribute as CFString, &focused)
+            guard status == .success, let focused, CFGetTypeID(focused) == AXUIElementGetTypeID() else {
+                // A cold provider may not expose a window on its first request.
+                return originalWindow == nil
+            }
+            let window = unsafeBitCast(focused, to: AXUIElement.self)
+            if let originalWindow { return CFEqual(originalWindow, window) }
+            originalWindow = window
+            return true
+        }
+        _ = sameWindow()
+        let capture = SelectionCapture(sourceIsCurrent: sourceIsCurrent, keysAreReleased: {
+            let modifiers: CGEventFlags = [.maskCommand, .maskControl, .maskAlternate, .maskShift]
+            return CGEventSource.flagsState(.combinedSessionState).intersection(modifiers).isEmpty
+                && !CGEventSource.keyState(.combinedSessionState, key: CGKeyCode(truncatingIfNeeded: shortcut.keyCode))
+        }, accessibilityText: {
+            guard sameWindow() else { return nil }
+            var focused: CFTypeRef?
+            guard AXUIElementCopyAttributeValue(application, kAXFocusedUIElementAttribute as CFString, &focused) == .success,
+                  let focused, CFGetTypeID(focused) == AXUIElementGetTypeID() else { return nil }
             let element = unsafeBitCast(focused, to: AXUIElement.self)
-            if AXUIElementCopyAttributeValue(element, kAXSelectedTextAttribute as CFString, &selected) == .success,
-               let text = selected as? String, !text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty { return text }
-        }
-        // Some apps expose Copy but not AXSelectedText. Preserve all pasteboard formats.
-        // Let the triggering shortcut's modifiers go before synthesizing Command-C.
-        let modifiers: CGEventFlags = [.maskCommand, .maskControl, .maskAlternate, .maskShift]
-        for _ in 0..<30 {
-            if CGEventSource.flagsState(.combinedSessionState).intersection(modifiers).isEmpty { break }
-            try await Task.sleep(for: .milliseconds(50))
-        }
-        guard CGEventSource.flagsState(.combinedSessionState).intersection(modifiers).isEmpty else { throw SelectionError.empty }
-        let board = NSPasteboard.general
-        let saved = board.pasteboardItems?.map { item -> NSPasteboardItem in
-            let copy = NSPasteboardItem()
-            for type in item.types { if let data = item.data(forType: type) { copy.setData(data, forType: type) } }
-            return copy
-        } ?? []
-        let previousChange = board.changeCount
-        let source = CGEventSource(stateID: .combinedSessionState)
-        for down in [true, false] {
-            let event = CGEvent(keyboardEventSource: source, virtualKey: 8, keyDown: down)
-            event?.flags = .maskCommand
-            event?.post(tap: .cghidEventTap)
-        }
-        var copyChange: Int?
-        for _ in 0..<12 {
-            try await Task.sleep(for: .milliseconds(50))
-            if board.changeCount != previousChange { copyChange = board.changeCount; break }
-        }
-        guard let copyChange else { throw SelectionError.empty }
-        let value = board.string(forType: .string)
-        if board.changeCount == copyChange {
-            board.clearContents()
-            board.writeObjects(saved)
-        }
-        guard let value, !value.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else { throw SelectionError.empty }
-        return value
+            var elementPID: pid_t = 0
+            guard AXUIElementGetPid(element, &elementPID) == .success, elementPID == pid else { return nil }
+            AXUIElementSetMessagingTimeout(element, 0.25)
+            var selected: CFTypeRef?
+            guard AXUIElementCopyAttributeValue(element, kAXSelectedTextAttribute as CFString, &selected) == .success else { return nil }
+            return selected as? String
+        }, copiedText: {
+            guard sameWindow() else { throw SelectionError.empty }
+            let board = NSPasteboard.general
+            let baseline = board.changeCount
+            // Snapshot every available format, not just plain text.
+            let saved = board.pasteboardItems?.map { item -> NSPasteboardItem in
+                let copy = NSPasteboardItem()
+                for type in item.types {
+                    if let data = item.data(forType: type) { copy.setData(data, forType: type) }
+                }
+                return copy
+            } ?? []
+            return try await SelectionCopy.read(baseline: baseline, changeCount: { board.changeCount },
+                text: { board.string(forType: .string) }, sendCopy: {
+                    let source = CGEventSource(stateID: .combinedSessionState)
+                    for down in [true, false] {
+                        let event = CGEvent(keyboardEventSource: source, virtualKey: 8, keyDown: down)
+                        event?.flags = .maskCommand
+                        event?.post(tap: .cghidEventTap)
+                    }
+                }, restore: {
+                    board.clearContents()
+                    if !saved.isEmpty { board.writeObjects(saved) }
+                }, sourceIsCurrent: sourceIsCurrent)
+        })
+        let text = try await capture.read()
+        guard sameWindow() else { throw SelectionError.empty }
+        return text
     }
     enum SelectionError: LocalizedError {
         case permission, empty
