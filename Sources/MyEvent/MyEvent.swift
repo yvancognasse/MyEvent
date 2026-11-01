@@ -83,10 +83,10 @@ final class AppModel: ObservableObject {
             let text = try await SelectionReader.read()
             let selectedLanguage = language
             let capturedAt = Date()
-            let translated = try await EventTextTranslator.translate(text, to: selectedLanguage)
-            let draft = EventContentBuilder.build(source: text, translated: translated, language: selectedLanguage, now: capturedAt)
+            let contentLanguage = EventTextTranslator.detectedAppLanguage(in: text)
+            let draft = EventContentBuilder.build(source: text, translated: text, language: contentLanguage ?? selectedLanguage, now: capturedAt)
             error = ""
-            EventPopup.review(EventReceipt(draft: draft, destinations: names, language: selectedLanguage)) { [weak self] edited in
+            EventPopup.review(EventReceipt(draft: draft, destinations: names, language: selectedLanguage, contentLanguage: contentLanguage)) { [weak self] edited in
                 guard let self else { throw CaptureError.destinations }
                 do {
                     try self.save(edited, to: calendarIDs)
@@ -353,7 +353,7 @@ struct MainView: View {
                 Text(tr("Select text and press the shortcut. Review the details before creating the event."))
                     .font(.caption).foregroundStyle(.secondary).fixedSize(horizontal: false, vertical: true)
             }
-            Text(tr("The chosen language is used for the event title and detailed notes.")).font(.caption).foregroundStyle(.secondary)
+            Text(tr("The language in General controls the interface. Choose the event language in the review window.")).font(.caption).foregroundStyle(.secondary)
             Divider()
             Text(tr("The red button quits MyEvent and disables the shortcut. The yellow button minimizes the window and keeps MyEvent running."))
                 .font(.caption).foregroundStyle(.secondary)

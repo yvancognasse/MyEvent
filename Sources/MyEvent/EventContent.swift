@@ -17,11 +17,20 @@ enum EventTextTranslator {
             }
         }
     }
-    static func translate(_ text: String, to target: AppLanguage) async throws -> String {
+    static func detectedLanguage(in text: String) -> Locale.Language? {
         let recognizer = NLLanguageRecognizer()
         recognizer.processString(text)
-        guard let detected = recognizer.dominantLanguage else { throw Failure.unidentified }
-        let source = Locale.Language(identifier: detected.rawValue)
+        return recognizer.dominantLanguage.map { Locale.Language(identifier: $0.rawValue) }
+    }
+
+    static func detectedAppLanguage(in text: String) -> AppLanguage? {
+        let recognizer = NLLanguageRecognizer()
+        recognizer.processString(text)
+        return recognizer.dominantLanguage.flatMap { AppLanguage(rawValue: $0.rawValue) }
+    }
+
+    static func translate(_ text: String, to target: AppLanguage, source explicitSource: Locale.Language? = nil) async throws -> String {
+        guard let source = explicitSource ?? detectedLanguage(in: text) else { throw Failure.unidentified }
         let destination = Locale.Language(identifier: target.rawValue)
         if source.languageCode == destination.languageCode { return text }
         guard #available(macOS 26.0, *) else { throw Failure.requiresNewerSystem }
@@ -33,14 +42,58 @@ enum EventTextTranslator {
             guard status == .installed else { throw Failure.notInstalled }
             do {
                 let session = TranslationSession(installedSource: source, target: destination)
-                let response = try await session.translate(text)
-                return try validatedText(response.targetText, language: response.targetLanguage, target: destination)
+                return try await translatedText(text, using: session, target: destination)
             } catch {
                 throw mappedError(error)
             }
         }, interactive: {
             try await TranslationWindow.translate(text, source: source, target: destination)
         })
+    }
+
+    @available(macOS 26.0, *)
+    static func translatedText(_ text: String, using session: TranslationSession, target: Locale.Language) async throws -> String {
+        let detector = try NSDataDetector(types: NSTextCheckingResult.CheckingType.link.rawValue)
+        let references = detector.matches(in: text, range: NSRange(text.startIndex..., in: text))
+        if #available(macOS 26.4, *) {
+            var attributed = AttributedString(text)
+            for match in references {
+                guard let range = Range(match.range, in: text),
+                      let lower = AttributedString.Index(range.lowerBound, within: attributed),
+                      let upper = AttributedString.Index(range.upperBound, within: attributed) else { throw Failure.failed }
+                attributed[lower..<upper].skipsTranslation = true
+            }
+            let response = try await session.translate(attributed)
+            return try validatedText(response.targetText, language: response.targetLanguage, target: target)
+        }
+        // Older translation APIs cannot mark protected ranges. Translate only the
+        // prose between references, preserving the exact identifiers and whitespace.
+        return try await translateAroundReferences(text) { prose in
+            let response = try await session.translate(prose)
+            return try validatedText(response.targetText, language: response.targetLanguage, target: target)
+        }
+    }
+
+    static func translateAroundReferences(_ text: String, translate: (String) async throws -> String) async throws -> String {
+        let detector = try NSDataDetector(types: NSTextCheckingResult.CheckingType.link.rawValue)
+        let references = detector.matches(in: text, range: NSRange(text.startIndex..., in: text))
+        func prose(_ text: String) async throws -> String {
+            guard text.unicodeScalars.contains(where: { CharacterSet.letters.contains($0) }) else { return text }
+            let leading = String(text.prefix(while: \.isWhitespace))
+            let trailing = String(text.reversed().prefix(while: \.isWhitespace).reversed())
+            let core = String(text.dropFirst(leading.count).dropLast(trailing.count))
+            return leading + (try await translate(core)) + trailing
+        }
+        var result = ""
+        var cursor = text.startIndex
+        for match in references {
+            guard let range = Range(match.range, in: text) else { throw Failure.failed }
+            result += try await prose(String(text[cursor..<range.lowerBound]))
+            result += String(text[range])
+            cursor = range.upperBound
+        }
+        result += try await prose(String(text[cursor...]))
+        return result
     }
 
     static func translateWithFallback(direct: () async throws -> String,
@@ -83,10 +136,7 @@ enum EventContentBuilder {
                       now: Date = Date(), calendar: Calendar = .current,
                       defaultDuration: TimeInterval = 3600, defaultHour: Int = 9) -> EventDraft {
         var draft = EventParser.parse(source, now: now, calendar: calendar, defaultDuration: defaultDuration, defaultHour: defaultHour)
-        let lines = translated.components(separatedBy: .newlines).map { $0.trimmingCharacters(in: .whitespacesAndNewlines) }.filter { !$0.isEmpty }
-        let title = lines.first ?? Translations.text("New event", language: language)
-        let prefix = #"(?i)^(?:subject|title|objet|titre|betreff|titel|oggetto|titolo|asunto|título|assunto|onderwerp|тема|заголовок|название|主题|标题|विषय|عنوان)\s*[:：]\s*"#
-        draft.title = String(title.replacingOccurrences(of: prefix, with: "", options: .regularExpression).prefix(160))
+        draft.title = EventTitle.suggest(from: translated, language: language)
         let locationPattern = #"(?im)^\s*(?:location|venue|place|lieu|adresse|ort|adresse|luogo|sede|lugar|ubicación|local|endereço|locatie|plaats|adres|место|местоположение|адрес|地点|地址|स्थान|المكان|الموقع)\s*[:：]\s*(.+)$"#
         if let regex = try? NSRegularExpression(pattern: locationPattern),
            let match = regex.firstMatch(in: translated, range: NSRange(translated.startIndex..., in: translated)),

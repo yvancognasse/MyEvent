@@ -1001,19 +1001,6 @@ enum Translations {
     "ru": "Окончание",
     "nl": "Einde"
   },
-  "The chosen language is used for the event title and detailed notes.": {
-    "en": "The chosen language is used for the event title and detailed notes.",
-    "zh-Hans": "所选语言用于日程标题和详细备注。",
-    "hi": "चुनी भाषा इवेंट शीर्षक और विस्तृत नोट्स में इस्तेमाल होगी।",
-    "es": "El idioma elegido se usa en el título y las notas del evento.",
-    "ar": "تُستخدم اللغة المختارة لعنوان الحدث وملاحظاته التفصيلية.",
-    "fr": "La langue choisie s'applique au titre et aux notes détaillées de l'événement.",
-    "pt": "O idioma escolhido é usado no título e nas notas detalhadas.",
-    "de": "Die gewählte Sprache gilt für Titel und ausführliche Notizen des Termins.",
-    "it": "La lingua scelta viene usata per il titolo e le note dettagliate dell'evento.",
-    "ru": "Выбранный язык используется для названия события и подробных заметок.",
-    "nl": "De gekozen taal wordt gebruikt voor de titel en uitgebreide notities van de afspraak."
-  },
   "Translation is unavailable for this language pair on this Mac. No event was created.": {
     "en": "Translation is unavailable for this language pair on this Mac. No event was created.",
     "zh-Hans": "此Mac不支持该语言对的翻译，未创建日程。",
@@ -1286,6 +1273,45 @@ enum Translations {
     "it": "Preparazione dell'evento…",
     "ru": "Подготовка события…",
     "nl": "Afspraak voorbereiden…"
+  },
+  "Event language": {
+    "en": "Event language",
+    "zh-Hans": "日程语言",
+    "hi": "इवेंट की भाषा",
+    "es": "Idioma del evento",
+    "ar": "لغة الحدث",
+    "fr": "Langue de l'événement",
+    "pt": "Idioma do evento",
+    "de": "Terminsprache",
+    "it": "Lingua dell'evento",
+    "ru": "Язык события",
+    "nl": "Taal van de afspraak"
+  },
+  "Original language": {
+    "en": "Original language",
+    "zh-Hans": "原文语言",
+    "hi": "मूल भाषा",
+    "es": "Idioma original",
+    "ar": "اللغة الأصلية",
+    "fr": "Langue d'origine",
+    "pt": "Idioma original",
+    "de": "Originalsprache",
+    "it": "Lingua originale",
+    "ru": "Исходный язык",
+    "nl": "Oorspronkelijke taal"
+  },
+  "The language in General controls the interface. Choose the event language in the review window.": {
+    "en": "The language in General controls the interface. Choose the event language in the review window.",
+    "zh-Hans": "通用设置中的语言控制界面。请在预览窗口中选择日程语言。",
+    "hi": "सामान्य सेटिंग की भाषा इंटरफ़ेस पर लागू होती है। समीक्षा विंडो में इवेंट की भाषा चुनें।",
+    "es": "El idioma de General controla la interfaz. Elige el idioma del evento en la ventana de revisión.",
+    "ar": "تتحكم اللغة في الإعدادات العامة في الواجهة. اختر لغة الحدث في نافذة المراجعة.",
+    "fr": "La langue de Général s'applique à l'interface. Choisissez la langue de l'événement dans la fenêtre de révision.",
+    "pt": "O idioma em Geral controla a interface. Escolha o idioma do evento na janela de revisão.",
+    "de": "Die Sprache unter Allgemein steuert die Oberfläche. Wählen Sie die Terminsprache im Prüffenster.",
+    "it": "La lingua in Generali controlla l'interfaccia. Scegli la lingua dell'evento nella finestra di revisione.",
+    "ru": "Язык в разделе «Основные» задаёт язык интерфейса. Выберите язык события в окне проверки.",
+    "nl": "De taal in Algemeen bepaalt de interface. Kies de taal van de afspraak in het controlevenster."
   }
 }
 """#

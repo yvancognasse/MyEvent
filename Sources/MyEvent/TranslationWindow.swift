@@ -68,9 +68,7 @@ private struct TranslationProgress: View {
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .translationTask(source: source, target: target) { session in
             do {
-                let response = try await session.translate(text)
-                let translated = try EventTextTranslator.validatedText(response.targetText,
-                    language: response.targetLanguage, target: target)
+                let translated = try await EventTextTranslator.translatedText(text, using: session, target: target)
                 finish(.success(translated))
             } catch {
                 finish(.failure(EventTextTranslator.mappedError(error)))

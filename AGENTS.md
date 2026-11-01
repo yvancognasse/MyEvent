@@ -7,7 +7,7 @@ These requirements come from the user's explicit instructions.
 - `python3 scripts/update_release.py --check` must pass after the final build. A code change without a guide edit is deliberately rejected by the release updater.
 - The request for an online guide remains in scope. Online hosting is currently blocked because Sites is disabled in this workspace. Do not invent a hosted URL or call the local HTML guide online. If hosting becomes available, publish the updated guide on every release and verify the live version.
 - Supported languages: English, Mandarin (Simplified), Hindi, Spanish, Arabic, French, Portuguese, German, Italian, Russian, Dutch. Do not restore Bengali, Indonesian, Urdu or Romanian.
-- The selected language governs the event title and notes as well as the UI. Never silently save an untranslated fallback if translation is needed and unavailable. Keep original dates, preserve selected details in translated notes, and never invent attendees or issue calendar invitations.
+- The language selected in setup governs only the UI. Event content starts in its original language; a separate language selector in the review window translates the current title, location and notes. Never silently save an untranslated fallback if translation is needed and unavailable. Keep original dates, preserve selected details in translated notes, and never invent attendees or issue calendar invitations.
 - Test using mocks/fixtures where possible; do not create arbitrary events in the user's real calendars.
 
 ## GitHub source management

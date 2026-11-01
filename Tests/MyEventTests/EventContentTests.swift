@@ -132,6 +132,18 @@ final class EventContentTests: XCTestCase {
         XCTAssertFalse(translated.contains("Réunion"))
     }
 
+    func testReferenceProtectionPreservesRepeatedIdentifiersAndWhitespace() async throws {
+        var inputs: [String] = []
+        let result = try await EventTextTranslator.translateAroundReferences(
+            "Join https://example.com/meeting\n\nEmail anna@example.com\nhttps://example.com/meeting\n"
+        ) { prose in
+            inputs.append(prose)
+            return prose == "Join" ? "Rejoindre" : "Écrire à"
+        }
+        XCTAssertEqual(inputs, ["Join", "Email"])
+        XCTAssertEqual(result, "Rejoindre https://example.com/meeting\n\nÉcrire à anna@example.com\nhttps://example.com/meeting\n")
+    }
+
     func testLanguageRemovedFromPreferencesFallsBackToEnglish() {
         XCTAssertNil(AppLanguage(rawValue: "ro"))
         XCTAssertNil(AppLanguage(rawValue: "bn"))

@@ -5,21 +5,22 @@ struct EventReceipt {
     let draft: EventDraft
     let destinations: [String]
     let language: AppLanguage
+    var contentLanguage: AppLanguage? = nil
     var displayedNotes: String {
         var sections = draft.notes.components(separatedBy: "\n\n")
-        let startLabel = Translations.text("Start", language: language) + ": "
-        let endLabel = Translations.text("End", language: language) + ": "
+        let startLabel = Translations.text("Start", language: contentLanguage ?? language) + ": "
+        let endLabel = Translations.text("End", language: contentLanguage ?? language) + ": "
         // Only remove MyEvent's generated preamble, not dates in the source text.
         if sections.count >= 2, sections[0].hasPrefix(startLabel), sections[1].hasPrefix(endLabel) {
             sections.removeFirst(2)
         }
-        let detailsLabel = Translations.text("Details", language: language) + ":\n"
+        let detailsLabel = Translations.text("Details", language: contentLanguage ?? language) + ":\n"
         return sections.map { section in
             section.hasPrefix(detailsLabel) ? String(section.dropFirst(detailsLabel.count)) : section
         }.joined(separator: "\n\n").trimmingCharacters(in: .whitespacesAndNewlines)
     }
-    var start: String { draft.start.formatted(.dateTime.weekday(.wide).day().month(.wide).year().hour().minute().locale(Locale(identifier: language.rawValue))) }
-    var end: String { draft.end.formatted(.dateTime.weekday(.wide).day().month(.wide).year().hour().minute().locale(Locale(identifier: language.rawValue))) }
+    var start: String { draft.start.formatted(.dateTime.weekday(.wide).day().month(.wide).year().hour().minute().locale(Locale(identifier: (contentLanguage ?? language).rawValue))) }
+    var end: String { draft.end.formatted(.dateTime.weekday(.wide).day().month(.wide).year().hour().minute().locale(Locale(identifier: (contentLanguage ?? language).rawValue))) }
 }
 
 /// Separate panels never reopen Settings. Clicking a field makes the review panel
@@ -29,12 +30,12 @@ enum EventPopup {
     private static var panels: [UUID: ReceiptPanel] = [:]
     static func review(_ receipt: EventReceipt, save: @escaping (EventDraft) throws -> Void) {
         let model = EventReviewModel(receipt: receipt, save: save)
-        present { dismiss in EventReviewView(model: model, dismiss: dismiss) }
+        present(onClose: { model.cancelTranslation() }) { dismiss in EventReviewView(model: model, dismiss: dismiss) }
     }
     static func failed(_ message: String) {
         present { dismiss in FailureView(message: message, language: .saved, dismiss: dismiss) }
     }
-    private static func present<Content: View>(@ViewBuilder content: (@escaping () -> Void) -> Content) {
+    private static func present<Content: View>(onClose: @escaping () -> Void = {}, @ViewBuilder content: (@escaping () -> Void) -> Content) {
         let identifier = UUID()
         let mouse = NSEvent.mouseLocation
         let screen = NSScreen.screens.first { $0.frame.contains(mouse) } ?? NSScreen.main
@@ -54,7 +55,7 @@ enum EventPopup {
             popup.setFrameTopLeftPoint(NSPoint(x: area.maxX - popup.frame.width - 24, y: area.maxY - 24))
         }
         panels[identifier] = popup
-        popup.onClose = { panels.removeValue(forKey: identifier) }
+        popup.onClose = { onClose(); panels.removeValue(forKey: identifier) }
         popup.orderFrontRegardless()
     }
 }
@@ -86,7 +87,7 @@ private struct EventReviewView: View {
             }
             ScrollView {
                 if model.confirmed {
-                    let receipt = EventReceipt(draft: model.draft, destinations: model.destinations, language: model.language)
+                    let receipt = EventReceipt(draft: model.draft, destinations: model.destinations, language: model.language, contentLanguage: model.eventLanguage)
                     VStack(alignment: .leading, spacing: 10) {
                         Text(model.draft.title).font(.title3.weight(.semibold))
                         Text(text("Start") + ": " + receipt.start)
@@ -100,18 +101,32 @@ private struct EventReviewView: View {
                     }.frame(maxWidth: .infinity, alignment: .leading).textSelection(.enabled)
                 } else {
                     VStack(alignment: .leading, spacing: 12) {
-                        LabeledContent(text("Title")) { TextField(text("Title"), text: $model.draft.title).labelsHidden() }
+                        Picker(text("Event language"), selection: Binding<AppLanguage?>(
+                            get: { model.eventLanguage },
+                            set: { target in if let target { Task { await model.translateEvent(to: target) } } }
+                        )) {
+                            if model.eventLanguage == nil { Text(text("Original language")).tag(Optional<AppLanguage>.none) }
+                            ForEach(AppLanguage.allCases) { Text($0.displayName).tag(Optional($0)) }
+                        }
+                        .disabled(model.translating)
+                        if model.translating { ProgressView(text("Translating event text…")) }
+                        LabeledContent(text("Title")) { TextField(text("Title"), text: $model.draft.title).labelsHidden()
+                            .environment(\.layoutDirection, model.eventLanguage?.isRightToLeft == true ? .rightToLeft : .leftToRight) }
                         DatePicker(text("Start"), selection: $model.draft.start, displayedComponents: [.date, .hourAndMinute])
+                            .environment(\.locale, Locale(identifier: (model.eventLanguage ?? model.language).rawValue))
                         DatePicker(text("End"), selection: $model.draft.end, displayedComponents: [.date, .hourAndMinute])
-                        LabeledContent(text("Location")) { TextField(text("Location"), text: $model.draft.location).labelsHidden() }
+                            .environment(\.locale, Locale(identifier: (model.eventLanguage ?? model.language).rawValue))
+                        LabeledContent(text("Location")) { TextField(text("Location"), text: $model.draft.location).labelsHidden()
+                            .environment(\.layoutDirection, model.eventLanguage?.isRightToLeft == true ? .rightToLeft : .leftToRight) }
                         LabeledContent(text("Link")) { TextField(text("Link"), text: $model.link).labelsHidden() }
                         Divider()
                         Text(text("Notes")).font(.callout)
                         TextEditor(text: $model.draft.notes)
+                            .environment(\.layoutDirection, model.eventLanguage?.isRightToLeft == true ? .rightToLeft : .leftToRight)
                             .font(.body).frame(minHeight: 140)
                             .border(Color.secondary.opacity(0.25))
                             .accessibilityLabel(text("Notes"))
-                    }.textFieldStyle(.roundedBorder)
+                    }.textFieldStyle(.roundedBorder).disabled(model.translating)
                 }
                 Text(text("Calendars") + ": " + model.destinations.joined(separator: ", "))
                     .font(.caption).frame(maxWidth: .infinity, alignment: .leading).padding(.top, 10)
@@ -127,7 +142,7 @@ private struct EventReviewView: View {
                 if !model.confirmed {
                     Button(text("Create event")) { model.confirm() }
                         .keyboardShortcut(.defaultAction)
-                        .disabled(model.validationMessage != nil)
+                        .disabled(model.validationMessage != nil || model.translating)
                 }
             }
         }.padding(20)
