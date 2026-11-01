@@ -195,9 +195,13 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
                 self?.installMenus()
             }
         }
-        window = NSWindow(contentRect: NSRect(x: 0, y: 0, width: 700, height: 570), styleMask: [.titled, .closable, .miniaturizable, .resizable], backing: .buffered, defer: false)
+        let settingsStyle: NSWindow.StyleMask = [.titled, .closable, .miniaturizable, .resizable]
+        // Match the reference's outer size, including the native title bar.
+        let settingsFrame = NSRect(x: 0, y: 0, width: 512, height: 471)
+        let settingsContent = NSWindow.contentRect(forFrameRect: settingsFrame, styleMask: settingsStyle)
+        window = NSWindow(contentRect: settingsContent, styleMask: settingsStyle, backing: .buffered, defer: false)
         window.title = "MyEvent — \(tr("Settings"))"
-        window.minSize = NSSize(width: 660, height: 530)
+        window.minSize = settingsFrame.size
         window.isReleasedWhenClosed = false
         window.delegate = self
         window.contentView = NSHostingView(rootView: MainView(model: model))
