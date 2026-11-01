@@ -17,6 +17,29 @@ final class EventParserTests: XCTestCase {
             XCTAssertEqual(calendar.component(.hour, from: draft.start), 14)
         }
     }
+    func testNewLanguagesPreserveRelativeDatesAndTimeRanges() {
+        for (text, offset) in [
+            ("Встреча сегодня 14:30", 0), ("Встреча завтра 14:30", 1), ("Встреча послезавтра 14:30", 2),
+            ("Overleg vandaag 14:30", 0), ("Overleg morgen 14:30", 1), ("Overleg overmorgen 14:30", 2),
+            ("Ședință astăzi 14:30", 0), ("Ședință mâine 14:30", 1), ("Ședință poimâine 14:30", 2)
+        ] {
+            let draft = EventParser.parse(text + " – 15:45", now: now, calendar: calendar)
+            let expected = calendar.date(byAdding: .day, value: offset, to: now)!
+            XCTAssertTrue(calendar.isDate(draft.start, inSameDayAs: expected), text)
+            XCTAssertEqual(calendar.component(.hour, from: draft.start), 14, text)
+            XCTAssertEqual(calendar.component(.minute, from: draft.start), 30, text)
+            XCTAssertEqual(draft.end.timeIntervalSince(draft.start), 4500, text)
+            XCTAssertTrue(draft.detectedDate, text)
+        }
+    }
+    func testNewLanguagesRecognizeWeekdays() {
+        for text in ["Встреча понедельник 10:00", "Overleg maandag 10:00", "Ședință luni 10:00"] {
+            let draft = EventParser.parse(text, now: now, calendar: calendar)
+            XCTAssertEqual(calendar.component(.weekday, from: draft.start), 2, text)
+            XCTAssertEqual(calendar.component(.day, from: draft.start), 2, text)
+        }
+    }
+
     func testTomorrowAndTimeRange() {
         let draft = EventParser.parse("Réunion demain de 14h30 à 15h45", now: now, calendar: calendar)
         XCTAssertEqual(calendar.component(.day, from: draft.start), 1)

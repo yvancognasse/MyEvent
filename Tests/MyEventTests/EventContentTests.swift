@@ -27,6 +27,37 @@ final class EventContentTests: XCTestCase {
         XCTAssertNil(draft.url)
         XCTAssertFalse(draft.notes.contains("Partecipanti:"))
     }
+    func testNewLanguageDraftsUseTranslatedTitlesLocationsAndDetails() {
+        let source = "Réunion demain de 14h30 à 15h45\nLieu: Paris\nBudget à valider"
+        let now = Date(timeIntervalSince1970: 1_800_000_000)
+        let original = EventParser.parse(source, now: now)
+        for (language, translated, title, location, detailsLabel, detail) in [
+            (AppLanguage.russian, "Тема: Обсуждение бюджета\nМесто: Париж\nПроверить бюджет", "Обсуждение бюджета", "Париж", "Подробности", "Проверить бюджет"),
+            (AppLanguage.dutch, "Onderwerp: Budgetoverleg\nLocatie: Parijs\nBudget controleren", "Budgetoverleg", "Parijs", "Details", "Budget controleren"),
+            (AppLanguage.romanian, "Titlu: Ședință de buget\nLocație: Paris\nVerificarea bugetului", "Ședință de buget", "Paris", "Detalii", "Verificarea bugetului")
+        ] {
+            let draft = EventContentBuilder.build(source: source, translated: translated, language: language, now: now)
+            XCTAssertEqual(draft.title, title)
+            XCTAssertEqual(draft.location, location)
+            XCTAssertEqual(draft.start, original.start)
+            XCTAssertEqual(draft.end, original.end)
+            XCTAssertTrue(draft.notes.contains(detailsLabel + ":\n"))
+            XCTAssertTrue(draft.notes.contains(detail))
+            XCTAssertFalse(draft.notes.contains("Budget à valider"))
+        }
+    }
+
+    func testTextAlreadyInNewLanguagesNeedsNoTranslationModels() async throws {
+        for (language, text) in [
+            (AppLanguage.russian, "Встреча команды для обсуждения бюджета проекта и подготовки плана работы на следующую неделю."),
+            (AppLanguage.dutch, "Vergadering met het verkoopteam om de begroting te bespreken en de volgende stappen voor het project af te spreken."),
+            (AppLanguage.romanian, "Ședință cu echipa pentru a discuta bugetul proiectului și pentru a stabili următorii pași și responsabilitățile fiecăruia.")
+        ] {
+            let translated = try await EventTextTranslator.translate(text, to: language)
+            XCTAssertEqual(translated, text)
+        }
+    }
+
     func testAlreadyEnglishTextNeedsNoTranslationDownload() async throws {
         let text = "Project planning meeting with the sales team to review the budget and agree on the next steps."
         let translated = try await EventTextTranslator.translate(text, to: .english)

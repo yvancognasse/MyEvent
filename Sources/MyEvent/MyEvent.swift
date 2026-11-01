@@ -277,7 +277,8 @@ struct MainView: View {
                             Text(tr(tabs[index].0)).font(.system(size: 11))
                         }
                         .foregroundStyle(model.tab == index ? Color.accentColor : .secondary)
-                        .frame(width: index == 2 ? 92 : 76, height: 56)
+                        .padding(.horizontal, 10)
+                        .frame(minWidth: index == 2 ? 92 : 76, minHeight: 56)
                         .background(model.tab == index ? Color(nsColor: .controlBackgroundColor) : .clear, in: RoundedRectangle(cornerRadius: 7))
                         .contentShape(Rectangle())
                     }.buttonStyle(.plain).accessibilityAddTraits(model.tab == index ? .isSelected : [])
