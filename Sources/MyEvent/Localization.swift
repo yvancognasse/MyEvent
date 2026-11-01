@@ -641,6 +641,28 @@ enum Translations {
     "de": "Kein ausgewählter Text zugänglich. Wählen Sie Text in der Quell-App, lassen Sie die Tasten los und versuchen Sie es erneut.",
     "it": "Il testo selezionato non è accessibile. Seleziona il testo nell'app di origine, rilascia i tasti e riprova."
   },
+  "Quit": {
+    "en": "Quit",
+    "zh-Hans": "退出",
+    "hi": "बंद करें",
+    "es": "Salir",
+    "ar": "إنهاء",
+    "fr": "Quitter",
+    "pt": "Sair",
+    "de": "Beenden",
+    "it": "Esci"
+},
+  "Hide": {
+    "en": "Hide",
+    "zh-Hans": "隐藏",
+    "hi": "छिपाएँ",
+    "es": "Ocultar",
+    "ar": "إخفاء",
+    "fr": "Masquer",
+    "pt": "Ocultar",
+    "de": "Ausblenden",
+    "it": "Nascondi"
+},
   "Hide MyEvent": {
     "en": "Hide MyEvent",
     "zh-Hans": "隐藏MyEvent",

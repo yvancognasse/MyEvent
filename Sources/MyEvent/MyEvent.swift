@@ -304,7 +304,22 @@ struct MainView: View {
                 Button { HelpGuide.open() } label: { Image(systemName: "questionmark.circle") }
                     .buttonStyle(.plain).font(.system(size: 20)).help(tr("Help (English)"))
                     .accessibilityLabel(tr("Help (English)"))
-            }.padding(.horizontal, 24).padding(.vertical, 12)
+                Button(tr("Quit")) {
+                    model.stopRecording()
+                    NSApp.terminate(nil)
+                }
+                .buttonStyle(.bordered)
+                .help(tr("Quit MyEvent"))
+                Button(tr("Hide")) {
+                    model.stopRecording()
+                    NSApp.hide(nil)
+                }
+                .buttonStyle(.borderedProminent)
+                .help(tr("Hide MyEvent"))
+            }
+            // Keep the actions at the physical bottom right in every language.
+            .environment(\.layoutDirection, .leftToRight)
+            .padding(.horizontal, 24).padding(.vertical, 12)
         }
         .background(Color(nsColor: .windowBackgroundColor))
         .environment(\.locale, Locale(identifier: model.language.rawValue))
