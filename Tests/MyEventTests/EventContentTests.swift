@@ -1,4 +1,6 @@
 import XCTest
+import Translation
+import AppKit
 @testable import MyEvent
 
 final class EventContentTests: XCTestCase {
@@ -30,6 +32,39 @@ final class EventContentTests: XCTestCase {
         let translated = try await EventTextTranslator.translate(text, to: .english)
         XCTAssertEqual(translated, text)
     }
+    func testInvalidTranslationNeverProducesFallbackContent() {
+        let english = Locale.Language(identifier: "en")
+        XCTAssertThrowsError(try EventTextTranslator.validatedText("  \n", language: english, target: english))
+        XCTAssertThrowsError(try EventTextTranslator.validatedText("Bonjour", language: Locale.Language(identifier: "fr"), target: english))
+        XCTAssertEqual(try EventTextTranslator.validatedText("Meeting", language: Locale.Language(identifier: "en-US"), target: english), "Meeting")
+    }
+
+    func testTranslationErrorsRetainActionableCauseAndCancellation() throws {
+        guard #available(macOS 26.0, *) else { throw XCTSkip("Requires Translation errors on macOS 26") }
+        let missing = EventTextTranslator.mappedError(TranslationError.notInstalled)
+        guard case EventTextTranslator.Failure.notInstalled = missing else { return XCTFail("Missing models should explain installation") }
+        let unsupported = EventTextTranslator.mappedError(TranslationError.unsupportedLanguagePairing)
+        guard case EventTextTranslator.Failure.unsupported = unsupported else { return XCTFail("Unsupported pair should be identified") }
+        XCTAssertTrue(EventTextTranslator.mappedError(TranslationError.alreadyCancelled) is CancellationError)
+        XCTAssertTrue(EventTextTranslator.mappedError(CancellationError()) is CancellationError)
+        let serviceError = NSError(domain: "TranslationFixture", code: 16, userInfo: [NSLocalizedDescriptionKey: "Permission required"])
+        XCTAssertEqual(EventTextTranslator.mappedError(serviceError).localizedDescription, "Permission required")
+    }
+
+    @MainActor
+    func testLiveViewBackedTranslationWithFixtureOnly() async throws {
+        guard ProcessInfo.processInfo.environment["MYEVENT_LIVE_TRANSLATION_TEST"] == "1" else {
+            throw XCTSkip("Opt-in local translation test; never accesses calendars")
+        }
+        guard #available(macOS 26.0, *) else { throw XCTSkip("Requires macOS 26") }
+        _ = NSApplication.shared
+        let translated = try await EventTextTranslator.translate(
+            "Réunion de projet demain à 14h pour discuter du budget.", to: .english)
+        XCTAssertFalse(translated.isEmpty)
+        XCTAssertTrue(translated.lowercased().contains("budget"))
+        XCTAssertFalse(translated.contains("Réunion"))
+    }
+
     func testLanguageRemovedFromPreferencesFallsBackToEnglish() {
         XCTAssertNil(AppLanguage(rawValue: "bn"))
         XCTAssertNil(AppLanguage(rawValue: "id"))

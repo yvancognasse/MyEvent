@@ -872,6 +872,17 @@ enum Translations {
     "de": "Die Ausgangssprache wurde nicht erkannt. Wählen Sie einen längeren Text und versuchen Sie es erneut.",
     "it": "Impossibile identificare la lingua. Seleziona un testo più lungo e riprova."
   },
+  "Translating event text…": {
+    "en": "Translating event text…",
+    "zh-Hans": "正在翻译日程文本…",
+    "hi": "इवेंट के पाठ का अनुवाद हो रहा है…",
+    "es": "Traduciendo el texto del evento…",
+    "ar": "جارٍ ترجمة نص الحدث…",
+    "fr": "Traduction du texte de l'événement…",
+    "pt": "Traduzindo o texto do evento…",
+    "de": "Termintext wird übersetzt…",
+    "it": "Traduzione del testo dell'evento…"
+},
   "Translation failed. No event was created.": {
     "en": "Translation failed. No event was created.",
     "zh-Hans": "翻译失败。未创建日程。",

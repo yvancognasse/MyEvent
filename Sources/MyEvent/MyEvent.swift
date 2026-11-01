@@ -96,6 +96,8 @@ final class AppModel: ObservableObject {
                     throw error
                 }
             }
+        } catch is CancellationError {
+            error = ""
         } catch {
             self.error = error.localizedDescription
             EventPopup.failed(error.localizedDescription)

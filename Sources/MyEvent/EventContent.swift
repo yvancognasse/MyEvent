@@ -27,15 +27,28 @@ enum EventTextTranslator {
         guard #available(macOS 26.0, *) else { throw Failure.requiresNewerSystem }
         let status = await LanguageAvailability().status(from: source, to: destination)
         guard status != .unsupported else { throw Failure.unsupported }
-        guard status == .installed else { throw Failure.notInstalled }
-        do {
-            let session = TranslationSession(installedSource: source, target: destination)
-            let response = try await session.translate(text)
-            guard !response.targetText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty,
-                  response.targetLanguage.languageCode == destination.languageCode else { throw Failure.failed }
-            return response.targetText
-        } catch let error as Failure { throw error }
-        catch { throw Failure.failed }
+        // Supported but uninstalled languages, and consent checks even for installed
+        // models, require a session attached to a visible SwiftUI view.
+        return try await TranslationWindow.translate(text, source: source, target: destination)
+    }
+
+    static func validatedText(_ text: String, language: Locale.Language, target: Locale.Language) throws -> String {
+        guard !text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty,
+              language.languageCode == target.languageCode else { throw Failure.failed }
+        return text
+    }
+
+    @available(macOS 26.0, *)
+    static func mappedError(_ error: Error) -> Error {
+        switch error {
+        case is CancellationError, TranslationError.alreadyCancelled: return CancellationError()
+        case TranslationError.notInstalled: return Failure.notInstalled
+        case TranslationError.unsupportedSourceLanguage, TranslationError.unsupportedTargetLanguage,
+             TranslationError.unsupportedLanguagePairing: return Failure.unsupported
+        case TranslationError.unableToIdentifyLanguage: return Failure.unidentified
+        case let failure as Failure: return failure
+        default: return error
+        }
     }
 }
 
