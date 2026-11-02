@@ -39,6 +39,71 @@ enum Translations {
     static let values: [String: [String: String]] = {
         let json = #"""
 {
+  "Edit": {
+    "en": "Edit",
+    "zh-Hans": "编辑",
+    "hi": "संपादित करें",
+    "es": "Edición",
+    "ar": "تحرير",
+    "fr": "Édition",
+    "pt": "Editar",
+    "de": "Bearbeiten",
+    "it": "Modifica",
+    "ru": "Правка",
+    "nl": "Bewerken"
+  },
+  "Cut": {
+    "en": "Cut",
+    "zh-Hans": "剪切",
+    "hi": "काटें",
+    "es": "Cortar",
+    "ar": "قص",
+    "fr": "Couper",
+    "pt": "Recortar",
+    "de": "Ausschneiden",
+    "it": "Taglia",
+    "ru": "Вырезать",
+    "nl": "Knippen"
+  },
+  "Copy": {
+    "en": "Copy",
+    "zh-Hans": "拷贝",
+    "hi": "कॉपी करें",
+    "es": "Copiar",
+    "ar": "نسخ",
+    "fr": "Copier",
+    "pt": "Copiar",
+    "de": "Kopieren",
+    "it": "Copia",
+    "ru": "Копировать",
+    "nl": "Kopiëren"
+  },
+  "Paste": {
+    "en": "Paste",
+    "zh-Hans": "粘贴",
+    "hi": "पेस्ट करें",
+    "es": "Pegar",
+    "ar": "لصق",
+    "fr": "Coller",
+    "pt": "Colar",
+    "de": "Einsetzen",
+    "it": "Incolla",
+    "ru": "Вставить",
+    "nl": "Plakken"
+  },
+  "Select All": {
+    "en": "Select All",
+    "zh-Hans": "全选",
+    "hi": "सभी चुनें",
+    "es": "Seleccionar todo",
+    "ar": "تحديد الكل",
+    "fr": "Tout sélectionner",
+    "pt": "Selecionar tudo",
+    "de": "Alles auswählen",
+    "it": "Seleziona tutto",
+    "ru": "Выбрать всё",
+    "nl": "Alles selecteren"
+  },
   "General": {
     "en": "General",
     "zh-Hans": "常规",

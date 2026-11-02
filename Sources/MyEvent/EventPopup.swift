@@ -67,10 +67,25 @@ enum EventPopup {
 }
 
 @MainActor
-private final class ReceiptPanel: NSPanel {
+final class ReceiptPanel: NSPanel {
     var onClose: (() -> Void)?
     override var canBecomeKey: Bool { true }
     override var canBecomeMain: Bool { false }
+    override func performKeyEquivalent(with event: NSEvent) -> Bool {
+        // A nonactivating panel cannot rely on MyEvent's menu bar being active.
+        // Send editing shortcuts to its own field editor, never the source app.
+        let modifiers = event.modifierFlags.intersection(.deviceIndependentFlagsMask)
+            .intersection([.command, .control, .option, .shift])
+        if modifiers == .command, let responder = firstResponder {
+            let actions: [String: Selector] = [
+                "c": #selector(NSText.copy(_:)), "x": #selector(NSText.cut(_:)),
+                "v": #selector(NSText.paste(_:)), "a": #selector(NSText.selectAll(_:))
+            ]
+            if let action = actions[event.charactersIgnoringModifiers?.lowercased() ?? ""],
+               responder.tryToPerform(action, with: nil) { return true }
+        }
+        return super.performKeyEquivalent(with: event)
+    }
     override func close() {
         super.close()
         onClose?()

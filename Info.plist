@@ -13,9 +13,9 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.3.29</string>
+	<string>1.3.30</string>
 	<key>CFBundleVersion</key>
-	<string>34</string>
+	<string>35</string>
 	<key>LSMinimumSystemVersion</key>
 	<string>14.0</string>
 	<key>CFBundleIconFile</key>
@@ -43,7 +43,7 @@
 	<key>NSHighResolutionCapable</key>
 	<true/>
 	<key>MyEventBuildDate</key>
-	<string>2026-11-01T22:58:53Z</string>
+	<string>2026-11-02T11:49:03Z</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>NSPrincipalClass</key>
