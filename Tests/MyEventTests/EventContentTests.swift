@@ -15,7 +15,7 @@ final class EventContentTests: XCTestCase {
         XCTAssertEqual(draft.end.timeIntervalSince(draft.start), 4500)
         XCTAssertEqual(draft.location, "Paris")
         XCTAssertEqual(draft.url?.absoluteString, "https://example.com/meeting")
-        XCTAssertEqual(draft.participants, ["anna@example.com"])
+        XCTAssertTrue(draft.notes.contains("anna@example.com"))
         XCTAssertFalse(draft.notes.contains("Teilnehmer:\nanna@example.com"))
         XCTAssertTrue(draft.notes.contains("Budget prüfen"))
         XCTAssertFalse(draft.notes.contains("Budget à valider"))

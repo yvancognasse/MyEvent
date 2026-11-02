@@ -7,7 +7,6 @@ import Combine
 final class EventReviewModel: ObservableObject {
     @Published var draft: EventDraft
     @Published var link: String
-    @Published var participants: String
     @Published private(set) var confirmed = false
     @Published private(set) var error = ""
     let language: AppLanguage
@@ -29,7 +28,6 @@ final class EventReviewModel: ObservableObject {
         draft = editable
         suggestedTitle = editable.title
         link = editable.url?.absoluteString ?? ""
-        participants = editable.participants.joined(separator: ", ")
         language = receipt.language
         eventLanguage = receipt.contentLanguage ?? EventTextTranslator.detectedAppLanguage(in: editable.notes + "\n" + editable.title)
         self.translateText = translateText
@@ -105,9 +103,6 @@ final class EventReviewModel: ObservableObject {
         if let validationMessage { error = validationMessage; return }
         var reviewed = draft
         reviewed.title = reviewed.title.trimmingCharacters(in: .whitespacesAndNewlines)
-        reviewed.participants = EventParticipants.entries(from: participants)
-        reviewed.notes = EventParticipants.notes(reviewed.notes, participants: reviewed.participants,
-                                                 language: eventLanguage ?? language)
         let value = link.trimmingCharacters(in: .whitespacesAndNewlines)
         reviewed.url = value.isEmpty ? nil : URL(string: value)
         do {

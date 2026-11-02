@@ -146,7 +146,6 @@ enum EventContentBuilder {
         let detector = try? NSDataDetector(types: NSTextCheckingResult.CheckingType.link.rawValue)
         let links = detector?.matches(in: translated, range: NSRange(translated.startIndex..., in: translated)).compactMap(\.url) ?? []
         func unique(_ values: [String]) -> [String] { var seen = Set<String>(); return values.filter { seen.insert($0).inserted } }
-        draft.participants = EventParticipants.detected(in: source)
         let webLinks = unique(links.filter { ["https", "http"].contains($0.scheme?.lowercased() ?? "") }.map(\.absoluteString))
         draft.url = webLinks.first.flatMap(URL.init(string:))
         func label(_ key: String) -> String { Translations.text(key, language: language) }
